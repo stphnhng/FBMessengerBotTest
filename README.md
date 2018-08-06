@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # node-js-getting-started
 
 A barebones Node.js app using [Express 4](http://expressjs.com/).
@@ -37,3 +38,9 @@ For more information about using Node.js on Heroku, see these Dev Center article
 - [Node.js on Heroku](https://devcenter.heroku.com/categories/nodejs)
 - [Best Practices for Node.js Development](https://devcenter.heroku.com/articles/node-best-practices)
 - [Using WebSockets on Heroku with Node.js](https://devcenter.heroku.com/articles/node-websockets)
+=======
+# FBMessengerBotTest
+Testing Implementation of a FB Messenger Bot
+
+Using Node.js and Heroku to setup backend for FB Messenger Bot. Prototype for a startup idea.
+>>>>>>> 01ecdc17c036493a8c5c5a9977bbe47add6d28c8
