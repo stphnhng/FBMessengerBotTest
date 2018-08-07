@@ -39,6 +39,12 @@ app.get('/db', async (req, res) => {
   try {
     const client = await pool.connect()
     const result = await client.query('SELECT * FROM test_table');
+    result.forEach( function(r){
+      console.log('-------');
+      console.log(r.id);
+      console.log(r.name);
+      console.log('-------');
+    });
     console.log(result);
     res.render('pages/db', result);
     client.release();
