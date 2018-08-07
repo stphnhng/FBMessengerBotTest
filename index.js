@@ -10,7 +10,7 @@ app.set('port', (PORT) );
 app.use(express.static(__dirname + '/public'));
 
 app.set('views', __dirname + '/views');
-app.set('view enginer', 'ejs');
+app.set('view engine', 'ejs');
 
 app.listen(app.get('port'), function(){
   console.log('Node app is running on port', app.get('port'));
