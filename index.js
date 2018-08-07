@@ -33,8 +33,8 @@ const pool = new Pool({
 app.get('/db', async (req, res) => {
   try {
     const client = await pool.connect()
-    const results = await client.query('SELECT * FROM test_table');
-    res.render('pages/db', results);
+    const result = await client.query('SELECT * FROM test_table');
+    res.render('pages/db', result);
     client.release();
   } catch (err) {
     console.error(err);
