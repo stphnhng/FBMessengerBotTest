@@ -39,14 +39,6 @@ app.get('/db', async (req, res) => {
   try {
     const client = await pool.connect()
     const result = await client.query('SELECT * FROM test_table');
-    console.log(typeof result);
-    console.log(typeof result.rows);
-
-    console.log('-------');
-    console.log(result.row[0].id);
-    console.log(result.row[0].name);
-    console.log('-------');
-    console.log(result);
     res.render('pages/db', result);
     client.release();
   } catch (err) {
