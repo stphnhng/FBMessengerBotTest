@@ -38,12 +38,13 @@ app.post('/webhook', (req, res) => {
 // Adds support for GET requests to our webhook
 app.get('/webhook', (req, res) => {
 
+  console.log("WEBHOOK EVENT");
+
   // Your verify token. Should be a random string.
   let VERIFY_TOKEN = "<nEokxdQ2wCC6DJC>"
     
   // Parse the query params
   let mode = req.query['hub.mode'];
-  console.log(typeof mode);
   let token = req.query['hub.verify_token'];
   let challenge = req.query['hub.challenge'];
     
