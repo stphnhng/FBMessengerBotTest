@@ -82,19 +82,21 @@ app.get('/webhook', (req, res) => {
 // Handles messages events
 const handleMessage = (sender_psid, received_message) => {
     let response;
- 
+    console.log("Received MESSAGE event")
     if (received_message.text) {
- 
+      
     }
 }
  
 // Handles postback events
 const handlePostback = (sender_psid, received_postback) => {
     let response;
- 
+    console.log("Received POSTBACK event");
     // Get the payload for the postback
     let payload = received_postback.payload;
- 
+    console.log("-------");
+    console.log(payload);
+    console.log("-------");
     if(payload === 'GET_STARTED'){
         response = askTemplate('Stephen Testing message 123?');
         callSendAPI(sender_psid, response);
