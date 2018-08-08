@@ -103,6 +103,19 @@ const handlePostback = (sender_psid, received_postback) => {
     if(payload === 'GET_STARTED'){
         response = askTemplate('Stephen Testing message 123?');
         callSendAPI(sender_psid, response);
+    }else if (payload === 'CAT_PICS') {
+        response = imageTemplate('cats', sender_psid);
+        callSendAPI(sender_psid, response, function(){
+            callSendAPI(sender_psid, askTemplate('Show me more'));
+        });
+    } else if (payload === 'DOG_PICS') {
+        response = imageTemplate('dogs', sender_psid);
+        callSendAPI(sender_psid, response, function(){
+            callSendAPI(sender_psid, askTemplate('Show me more'));
+        });
+    } else if(payload === 'GET_STARTED'){
+        response = askTemplate('Are you a Cat or Dog Person?');
+        callSendAPI(sender_psid, response);
     }
 }
 
