@@ -5,8 +5,9 @@ const
   express = require('express'), // express package for node js - useful webdev
   bodyParser = require('body-parser'),
   app = express().use(bodyParser.json()), // creates express http server
-  http = require("http"),
-  config = require("config");
+  http = require('http'),
+  request = require('request'),
+  config = require('config');
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 5000, () => console.log('webhook is listening'));
@@ -140,12 +141,15 @@ const callSendAPI = (sender_psid, response, cb = null) => {
     };
  
     // Send the HTTP request to the Messenger Platform
-    http.request({
-        "uri": "https://graph.facebook.com/v2.6/me/messages",
-        "qs": { "access_token": config.get('facebook.page.access_token') },
-        "method": "POST",
-        "json": request_body
-    }, (err, res, body) => {
+
+    const options = {
+        uri: "https://graph.facebook.com/v2.6/me/messages",
+        qs: { "access_token": config.get('facebook.page.access_token') },
+        method: "POST",
+        json: request_body
+    };
+
+    request(options, (err, res, body) => {
         if (!err) {
             if(cb){
                 cb();
