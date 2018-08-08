@@ -5,7 +5,8 @@ const
   express = require('express'), // express package for node js - useful webdev
   bodyParser = require('body-parser'),
   app = express().use(bodyParser.json()), // creates express http server
-  http = require("http");
+  http = require("http"),
+  config = require("config");
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 5000, () => console.log('webhook is listening'));
