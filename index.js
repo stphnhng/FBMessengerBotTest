@@ -9,8 +9,6 @@ const
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 5000, () => console.log('webhook is listening'));
 
-app.get('/', (req, res) => res.render('pages/index'));
-
 // Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => {  
  
@@ -42,6 +40,14 @@ app.get('/webhook', (req, res) => {
 
   console.log("WEBHOOK EVENT");
 
+  // Check if the event is a message or postback and
+  // pass the event to the appropriate handler function
+  if (webhook_event.message) {
+      handleMessage(sender_psid, webhook_event.message);
+  } else if (webhook_event.postback) {
+      handlePostback(sender_psid, webhook_event.postback);
+  }
+
   // Your verify token. Should be a random string.
   let VERIFY_TOKEN = "<nEokxdQ2wCC6DJC>"
     
@@ -66,3 +72,79 @@ app.get('/webhook', (req, res) => {
     }
   }
 });
+
+
+// Handles messages events
+const handleMessage = (sender_psid, received_message) => {
+    let response;
+ 
+    if (received_message.text) {
+ 
+    }
+}
+ 
+// Handles postback events
+const handlePostback = (sender_psid, received_postback) => {
+    let response;
+ 
+    // Get the payload for the postback
+    let payload = received_postback.payload;
+ 
+    if(payload === 'GET_STARTED'){
+        response = askTemplate('Stephen Testing message 123?');
+        callSendAPI(sender_psid, response);
+    }
+}
+
+const askTemplate = (text) => {
+    return {
+        "attachment":{
+            "type":"template",
+            "payload":{
+                "template_type":"button",
+                "text": text,
+                "buttons":[
+                    {
+                        "type":"postback",
+                        "title":"Cats",
+                        "payload":"CAT_PICS"
+                    },
+                    {
+                        "type":"postback",
+                        "title":"Dogs",
+                        "payload":"DOG_PICS"
+                    }
+                ]
+            }
+        }
+    }
+}
+ 
+// Sends response messages via the Send API
+const callSendAPI = (sender_psid, response, cb = null) => {
+    // Construct the message body
+    let request_body = {
+        "recipient": {
+            "id": sender_psid
+        },
+        "message": response
+    };
+ 
+    // Send the HTTP request to the Messenger Platform
+    request({
+        "uri": "https://graph.facebook.com/v2.6/me/messages",
+        "qs": { "access_token": config.get('facebook.page.access_token') },
+        "method": "POST",
+        "json": request_body
+    }, (err, res, body) => {
+        if (!err) {
+            if(cb){
+                cb();
+            }
+        } else {
+            console.error("Unable to send message:" + err);
+        }
+    });
+}
+
+
