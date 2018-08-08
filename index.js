@@ -11,8 +11,18 @@ app.listen(process.env.PORT || 5000, () => console.log('webhook is listening'));
 
 // Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => {  
- 
+  
   let body = req.body;
+
+  console.log("received post request")
+
+  // Check if the event is a message or postback and
+  // pass the event to the appropriate handler function
+  if (webhook_event.message) {
+      handleMessage(sender_psid, webhook_event.message);
+  } else if (webhook_event.postback) {
+      handlePostback(sender_psid, webhook_event.postback);
+  }
 
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
@@ -39,14 +49,6 @@ app.post('/webhook', (req, res) => {
 app.get('/webhook', (req, res) => {
 
   console.log("WEBHOOK EVENT");
-
-  // Check if the event is a message or postback and
-  // pass the event to the appropriate handler function
-  if (webhook_event.message) {
-      handleMessage(sender_psid, webhook_event.message);
-  } else if (webhook_event.postback) {
-      handlePostback(sender_psid, webhook_event.postback);
-  }
 
   // Your verify token. Should be a random string.
   let VERIFY_TOKEN = "<nEokxdQ2wCC6DJC>"
