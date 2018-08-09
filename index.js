@@ -117,8 +117,9 @@ const handlePostback = (sender_psid, received_postback) => {
 const getMenu = (menu_choice) => {
   if(menu_choice === "res_1"){
       menuJson = JSON.parse(menuPath + '/res_1.json');
+      console.log('receieved 1st menu');
   }else if(menu_choice === "res_2"){
-
+      console.log('res_2');
   }
 }
 
