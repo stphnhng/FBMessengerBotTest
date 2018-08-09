@@ -217,7 +217,10 @@ const askTemplate = (text) => {
 }
 */
 const askTemplate = (text) => {
-    console.log("ask template with" + text);
+    console.log("--------");
+    console.log("ASK TEMPLATE TEXT");
+    console.log(text);
+    console.log("--------");
     return {
         "attachment":{
             "type":"template",
