@@ -7,8 +7,10 @@ const
   app = express().use(bodyParser.json()), // creates express http server
   http = require('http'),
   request = require('request'),
-  config = require('config'),
-  menuPath = __dirname + '/menus';
+  config = require('config')
+
+const fs = require("fs");
+const menuPath = __dirname + '/menus';
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 5000, () => console.log('webhook is listening'));
@@ -120,8 +122,11 @@ const handlePostback = (sender_psid, received_postback) => {
 
 const getMenu = (menu_choice) => {
   if(menu_choice === "res_1"){
-      menuJson = JSON.parse(menuPath + '/res_1.json');
-      console.log('receieved 1st menu');
+        contents = fs.readFileSync(menuPath + '/res_1.json');
+        var jsonContent = JSON.parse(contents);
+        console.log("-----------");
+        console.log(jsonContent.menu.categories);
+        console.log("-----------");
   }else if(menu_choice === "res_2"){
       console.log('res_2');
   }
