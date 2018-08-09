@@ -44,6 +44,7 @@ app.post('/webhook', (req, res) => {
         });
  
         // Returns a '200 OK' response to all requests
+        console.log("200 status sent");
         res.status(200).send('EVENT_RECEIVED');
     } else {
         // Returns a '404 Not Found' if event is not from a page subscription
@@ -92,6 +93,7 @@ const handleMessage = (sender_psid, received_message) => {
     }
 }
  
+/*
 // Handles postback events
 const handlePostback = (sender_psid, received_postback) => {
     let response;
@@ -114,6 +116,30 @@ const handlePostback = (sender_psid, received_postback) => {
     }else if(payload === 'RES_2'){
         console.log("res 2 option in postback");
     }
+}*/
+
+const handlePostback = (sender_psid, received_postback) => {
+    let response;
+ 
+    // Get the payload for the postback
+    let payload = received_postback.payload;
+ 
+    // Set the response based on the postback payload
+    if (payload === 'CAT_PICS') {
+        response = imageTemplate('cats', sender_psid);
+        callSendAPI(sender_psid, response, function(){
+            callSendAPI(sender_psid, askTemplate('Show me more'));
+        });
+    } else if (payload === 'DOG_PICS') {
+        response = imageTemplate('dogs', sender_psid);
+        callSendAPI(sender_psid, response, function(){
+            callSendAPI(sender_psid, askTemplate('Show me more'));
+        });
+    } else if(payload === 'GET_STARTED'){
+        response = askTemplate('Are you a Cat or Dog Person?');
+        callSendAPI(sender_psid, response);
+    }
+    // Send the message to acknowledge the postback
 }
 /*
 const getMenu = (menu_choice) => {
