@@ -102,6 +102,7 @@ const handlePostback = (sender_psid, received_postback) => {
     console.log(payload);
     console.log("-------");
     if(payload === 'GET_STARTED'){
+        console.log('get started option chosen');
         response = askTemplate('This is the food delivery app, please order from the following restaurants:');
         callSendAPI(sender_psid, response);
     }else if (payload === 'RES_1') {
@@ -110,7 +111,7 @@ const handlePostback = (sender_psid, received_postback) => {
             callSendAPI(sender_psid, askTemplate('Show me more'));
         });
     }else if(payload === 'RES_2'){
-
+        console.log("res 2 option in postback");
     }
 }
 /*
@@ -151,6 +152,7 @@ const askTemplate = (text) => {
 }
 */
 const askTemplate = (text) => {
+    console.log("ask template with" + text);
     return {
         "attachment":{
             "type":"template",
