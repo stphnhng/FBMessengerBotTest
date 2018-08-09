@@ -113,7 +113,7 @@ const handlePostback = (sender_psid, received_postback) => {
 
     }
 }
-
+/*
 const getMenu = (menu_choice) => {
   if(menu_choice === "res_1"){
       menuJson = JSON.parse(menuPath + '/res_1.json');
@@ -122,6 +122,9 @@ const getMenu = (menu_choice) => {
       console.log('res_2');
   }
 }
+*/
+
+
 /*
 const askTemplate = (text) => {
     return {
