@@ -46,7 +46,6 @@ app.post('/webhook', (req, res) => {
         });
  
         // Returns a '200 OK' response to all requests
-        console.log("200 status sent");
         res.status(200).send('EVENT_RECEIVED');
     } else {
         // Returns a '404 Not Found' if event is not from a page subscription
@@ -127,11 +126,69 @@ const getMenu = (menu_choice) => {
         console.log("-----------");
         console.log(jsonContent.menu.categories);
         console.log("-----------");
+        return menuTemplate(jsonContent);
   }else if(menu_choice === "res_2"){
       console.log('res_2');
   }
 }
 
+const menuTemplate = (jsonContent) => {
+    return {
+        "payload": {
+            "template_type":"generic",
+            "elements":[
+                {
+                    "title":"Category 1",
+                    "image_url": __dirname + '/menus/images/cat1.jpg',
+                    "subtitle":"Subtitle Category 1",
+                    "buttons":[
+                        {
+                            "type":"postback",
+                            "title":"cat 1",
+                            "payload":"CAT_1"
+                        }
+                    ]      
+                },
+                {
+                    "title":"Category 2",
+                    "image_url": __dirname + '/menus/images/cat2.jpg',
+                    "subtitle":"Subtitle Category 2",
+                    "buttons":[
+                        {
+                            "type":"postback",
+                            "title":"cat 2",
+                            "payload":"CAT_2"
+                        }
+                    ]      
+                },
+                {
+                    "title":"Category 3",
+                    "image_url": __dirname + '/menus/images/cat3.jpg',
+                    "subtitle":"Subtitle Category 3",
+                    "buttons":[
+                        {
+                            "type":"postback",
+                            "title":"cat 3",
+                            "payload":"CAT_3"
+                        }
+                    ]      
+                },
+                {
+                    "title":"Category 4",
+                    "image_url": __dirname + '/menus/images/cat4.jpg',
+                    "subtitle":"Subtitle Category 4",
+                    "buttons":[
+                        {
+                            "type":"postback",
+                            "title":"cat 4",
+                            "payload":"CAT_4"
+                        }
+                    ]      
+                }
+            ]
+        }
+    }
+}
 
 
 const askTemplate = (text) => {
