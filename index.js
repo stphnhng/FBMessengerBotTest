@@ -105,6 +105,7 @@ const handlePostback = (sender_psid, received_postback) => {
         console.log('get started option chosen');
         response = askTemplate('This is the food delivery app, please order from the following restaurants:');
         callSendAPI(sender_psid, response);
+        console.log("end of callsendapi, message should be sent");
     }else if (payload === 'RES_1') {
         response = getMenu('res_1', sender_psid);
         callSendAPI(sender_psid, response, function(){
@@ -194,7 +195,7 @@ const callSendAPI = (sender_psid, response, cb = null) => {
         "json": request_body
     }, (err, res, body) => {
         if (!err) {
-            console.log("no error");
+            console.log("sent message");
         } else {
             console.error("Unable to send message:" + err);
         }
