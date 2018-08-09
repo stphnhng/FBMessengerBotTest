@@ -194,7 +194,9 @@ const callSendAPI = (sender_psid, response, cb = null) => {
         "json": request_body
     }, (err, res, body) => {
         if (!err) {
+            console.log("no error, but no message sent yet");
             if(cb){
+                console.log("message sent");
                 cb();
             }
         } else {
