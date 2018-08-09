@@ -122,7 +122,7 @@ const getMenu = (menu_choice) => {
       console.log('res_2');
   }
 }
-
+/*
 const askTemplate = (text) => {
     return {
         "attachment":{
@@ -140,6 +140,30 @@ const askTemplate = (text) => {
                         "type":"postback",
                         "title":"Restaurant 2",
                         "payload":"RES_2"
+                    }
+                ]
+            }
+        }
+    }
+}
+*/
+const askTemplate = (text) => {
+    return {
+        "attachment":{
+            "type":"template",
+            "payload":{
+                "template_type":"button",
+                "text": text,
+                "buttons":[
+                    {
+                        "type":"postback",
+                        "title":"Cats",
+                        "payload":"CAT_PICS"
+                    },
+                    {
+                        "type":"postback",
+                        "title":"Dogs",
+                        "payload":"DOG_PICS"
                     }
                 ]
             }
