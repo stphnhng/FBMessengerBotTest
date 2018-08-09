@@ -1,0 +1,75 @@
+{"menu":{
+    "items":[
+        {
+            "name":"English Afternoon Tea",
+            "category":0,
+            "sizes":["small", "regular", "large"]
+        },
+        {
+            "name":"Matcha Green Tea",
+            "category":0,
+            "sizes":["small", "regular", "large"]
+        },
+        {
+            "name":"Bubble Milk Tea",
+            "category":0,
+            "sizes":["small", "regular", "large"]
+        },
+        {
+            "name":"Toffifee",
+            "category":1,
+            "sizes":["small", "regular", "large"]
+        },
+        {
+            "name":"Chai Latte",
+            "category":1,
+            "sizes":["small", "regular", "large"]
+        },
+        {
+            "name":"Tea Affogato",
+            "category":1,
+            "sizes":["small", "regular", "large"]
+        },
+        {
+            "name":"Comfort",
+            "category":2,
+            "sizes":["small", "regular", "large"]
+        },
+        {
+            "name":"Recover",
+            "category":2,
+            "sizes":["small", "regular", "large"]
+        },
+        {
+            "name":"Purify",
+            "category":2,
+            "sizes":["small", "regular", "large"]
+        },
+        {
+            "name":"Virgin Bellini",
+            "category":3,
+            "sizes":["small", "regular", "large"]
+        },
+        {
+            "name":"Over the Rainbow",
+            "category":3,
+            "sizes":["small", "regular", "large"]
+        },
+        {
+            "name":"Lychee Burst",
+            "category":3,
+            "sizes":["small", "regular", "large"]
+        },
+        {
+            "name":"Tea Mojito",
+            "category":3,
+            "sizes":["small", "regular", "large"]
+        }
+    ],
+    "categories":[
+        "classics",
+        "cravings",
+        "feel-good blends",
+        "refreshing mocktails"
+    ]
+}}

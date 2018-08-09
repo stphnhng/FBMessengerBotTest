@@ -7,7 +7,8 @@ const
   app = express().use(bodyParser.json()), // creates express http server
   http = require('http'),
   request = require('request'),
-  config = require('config');
+  config = require('config'),
+  menuPath = __dirname + '/menus';
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 5000, () => console.log('webhook is listening'));
@@ -101,22 +102,24 @@ const handlePostback = (sender_psid, received_postback) => {
     console.log(payload);
     console.log("-------");
     if(payload === 'GET_STARTED'){
-        response = askTemplate('Stephen Testing message 123?');
+        response = askTemplate('This is the food delivery app, please order from the following restaurants:');
         callSendAPI(sender_psid, response);
-    }else if (payload === 'CAT_PICS') {
-        response = imageTemplate('cats', sender_psid);
+    }else if (payload === 'RES_1') {
+        response = getMenu('res_1', sender_psid);
         callSendAPI(sender_psid, response, function(){
             callSendAPI(sender_psid, askTemplate('Show me more'));
         });
-    } else if (payload === 'DOG_PICS') {
-        response = imageTemplate('dogs', sender_psid);
-        callSendAPI(sender_psid, response, function(){
-            callSendAPI(sender_psid, askTemplate('Show me more'));
-        });
-    } else if(payload === 'GET_STARTED'){
-        response = askTemplate('Are you a Cat or Dog Person?');
-        callSendAPI(sender_psid, response);
+    }else if(payload === 'RES_2'){
+
     }
+}
+
+const getMenu = (menu_choice) => {
+  if(menu_choice === "res_1"){
+      menuJson = JSON.parse(menuPath + '/res_1.json');
+  }else if(menu_choice === "res_2"){
+
+  }
 }
 
 const askTemplate = (text) => {
@@ -129,13 +132,13 @@ const askTemplate = (text) => {
                 "buttons":[
                     {
                         "type":"postback",
-                        "title":"Cats",
-                        "payload":"CAT_PICS"
+                        "title":"Restaurant 1",
+                        "payload":"RES_1"
                     },
                     {
                         "type":"postback",
-                        "title":"Dogs",
-                        "payload":"DOG_PICS"
+                        "title":"Restaurant 2",
+                        "payload":"RES_2"
                     }
                 ]
             }
@@ -156,7 +159,7 @@ const callSendAPI = (sender_psid, response, cb = null) => {
     // Send the HTTP request to the Messenger Platform
 
     const options = {
-        uri: "https://graph.facebook.com/v2.6/me/messages",
+        uri: "https://graph.facebook.com/v3.1/me/messages",
         qs: { "access_token": config.get('facebook.page.access_token') },
         method: "POST",
         json: request_body
@@ -164,6 +167,7 @@ const callSendAPI = (sender_psid, response, cb = null) => {
 
     request(options, (err, res, body) => {
         if (!err) {
+            console.log("message sent!");
             if(cb){
                 cb();
             }
