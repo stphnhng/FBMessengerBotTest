@@ -110,7 +110,8 @@ const handlePostback = (sender_psid, received_postback) => {
         callSendAPI(sender_psid, response);
         console.log("end of callsendapi, message should be sent");
     }else if (payload === 'RES_1') {
-        response = getMenu('res_1', sender_psid);
+        response = getMenu('res_1');
+        console.log(response);
         callSendAPI(sender_psid, response, function(){
             callSendAPI(sender_psid, askTemplate('Show me more'));
         });
@@ -123,9 +124,6 @@ const getMenu = (menu_choice) => {
   if(menu_choice === "res_1"){
         var contents = fs.readFileSync(menuPath + '/res_1.json');
         var jsonContent = JSON.parse(contents);
-        console.log("-----------");
-        console.log(jsonContent.menu.categories);
-        console.log("-----------");
         return menuTemplate(jsonContent);
   }else if(menu_choice === "res_2"){
       console.log('res_2');
@@ -133,13 +131,12 @@ const getMenu = (menu_choice) => {
 }
 
 const menuTemplate = (jsonContent) => {
-    console.log("returning menuTemplate");
-    return {
+    return_payload = {
         "payload": {
             "template_type":"generic",
             "elements":[
                 {
-                    "title":"Category 1",
+                    "title":jsonContent.menu.categories[0],
                     "image_url": __dirname + '/menus/images/cat1.jpg',
                     "subtitle":"Subtitle Category 1",
                     "buttons":[
@@ -151,7 +148,7 @@ const menuTemplate = (jsonContent) => {
                     ]      
                 },
                 {
-                    "title":"Category 2",
+                    "title":jsonContent.menu.categories[1],
                     "image_url": __dirname + '/menus/images/cat2.jpg',
                     "subtitle":"Subtitle Category 2",
                     "buttons":[
@@ -163,7 +160,7 @@ const menuTemplate = (jsonContent) => {
                     ]      
                 },
                 {
-                    "title":"Category 3",
+                    "title":jsonContent.menu.categories[2],
                     "image_url": __dirname + '/menus/images/cat3.jpg',
                     "subtitle":"Subtitle Category 3",
                     "buttons":[
@@ -175,7 +172,7 @@ const menuTemplate = (jsonContent) => {
                     ]      
                 },
                 {
-                    "title":"Category 4",
+                    "title":jsonContent.menu.categories[3],
                     "image_url": __dirname + '/menus/images/cat4.jpg',
                     "subtitle":"Subtitle Category 4",
                     "buttons":[
@@ -189,6 +186,7 @@ const menuTemplate = (jsonContent) => {
             ]
         }
     }
+    return return_payload
 }
 
 
