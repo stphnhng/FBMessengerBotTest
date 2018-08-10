@@ -119,7 +119,7 @@ const handlePostback = (sender_psid, received_postback) => {
 }
 
 const getMenu = (menu_choice) => {
-  return_template = null;
+  var return_template = null;
   if(menu_choice === "res_1"){
         var contents = fs.readFileSync(menuPath + '/res_1.json');
         var jsonContent = JSON.parse(contents);
