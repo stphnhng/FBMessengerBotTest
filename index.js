@@ -111,9 +111,7 @@ const handlePostback = (sender_psid, received_postback) => {
     }else if (payload === 'RES_1') {
         response = getMenu('res_1');
         console.log(response);
-        callSendAPI(sender_psid, response, function(){
-            callSendAPI(sender_psid, askTemplate('Show me more'));
-        });
+        callSendAPI(sender_psid, response);
     }else if(payload === 'RES_2'){
         console.log("res 2 option in postback");
     }
