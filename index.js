@@ -131,7 +131,7 @@ const getMenu = (menu_choice) => {
 const menuTemplate = (jsonContent) => {
     var objArray = [];
     for (var i = 0; i < jsonContent.menu.categories.length; i++){
-        u = i+1;
+        var u = i+1;
         var object = {
             "title": jsonContent.menu.categories[i],
             "image_url": __dirname + '/menus/images/cat' + u + '.jpg',
