@@ -139,13 +139,13 @@ const menuTemplate = (jsonContent) => {
                 {
                     "type": "postback",
                     "title": "Cat " + i,
-                    "payload":: "CAT_" + i
+                    "payload": "CAT_" + i
                 }
             ]
         };
         objArray.push(object);
     }
-    
+
     return {
         "attachment":{
             "type": "template",
