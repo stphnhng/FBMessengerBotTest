@@ -128,61 +128,30 @@ const getMenu = (menu_choice) => {
 }
 
 const menuTemplate = (jsonContent) => {
+    var objArray = [];
+    for (var i = 0; i < jsonContent.menu.categories.length; i++){
+        console.log(json.menu.categories[i]);
+        var object = {
+            "title": jsonContent.menu.categories[i],
+            "image_url": __dirname + '/menus/images/cat' + i + '.jpg',
+            "subtitle": "Subtitle Category " + i,
+            "buttons":[
+                {
+                    "type": "postback",
+                    "title": "Cat " + i,
+                    "payload":: "CAT_" + i
+                }
+            ]
+        };
+        objArray.push(object);
+    }
+    
     return {
         "attachment":{
             "type": "template",
             "payload": {
                 "template_type":"generic",
-                "elements":[
-                    {
-                        "title":jsonContent.menu.categories[0],
-                        "image_url": __dirname + '/menus/images/cat1.jpg',
-                        "subtitle":"Subtitle Category 1",
-                        "buttons":[
-                            {
-                                "type":"postback",
-                                "title":"cat 1",
-                                "payload":"CAT_1"
-                            }
-                        ]      
-                    },
-                    {
-                        "title":jsonContent.menu.categories[1],
-                        "image_url": __dirname + '/menus/images/cat2.jpg',
-                        "subtitle":"Subtitle Category 2",
-                        "buttons":[
-                            {
-                                "type":"postback",
-                                "title":"cat 2",
-                                "payload":"CAT_2"
-                            }
-                        ]      
-                    },
-                    {
-                        "title":jsonContent.menu.categories[2],
-                        "image_url": __dirname + '/menus/images/cat3.jpg',
-                        "subtitle":"Subtitle Category 3",
-                        "buttons":[
-                            {
-                                "type":"postback",
-                                "title":"cat 3",
-                                "payload":"CAT_3"
-                            }
-                        ]      
-                    },
-                    {
-                        "title":jsonContent.menu.categories[3],
-                        "image_url": __dirname + '/menus/images/cat4.jpg',
-                        "subtitle":"Subtitle Category 4",
-                        "buttons":[
-                            {
-                                "type":"postback",
-                                "title":"cat 4",
-                                "payload":"CAT_4"
-                            }
-                        ]      
-                    }
-                ]
+                "elements": objArray
             }
         }
     }
