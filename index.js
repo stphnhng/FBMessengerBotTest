@@ -108,7 +108,6 @@ const handlePostback = (sender_psid, received_postback) => {
         console.log('get started option chosen');
         response = askTemplate('This is the food delivery app, please order from the following restaurants:');
         callSendAPI(sender_psid, response);
-        console.log("end of callsendapi, message should be sent");
     }else if (payload === 'RES_1') {
         response = getMenu('res_1');
         console.log(response);
@@ -131,7 +130,7 @@ const getMenu = (menu_choice) => {
 }
 
 const menuTemplate = (jsonContent) => {
-    return_payload = {
+    const return_payload = {
         "payload": {
             "template_type":"generic",
             "elements":[
