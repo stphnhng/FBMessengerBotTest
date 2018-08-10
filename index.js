@@ -107,6 +107,7 @@ const handlePostback = (sender_psid, received_postback) => {
     if(payload === 'GET_STARTED'){
         console.log('get started option chosen');
         response = askTemplate('This is the food delivery app, please order from the following restaurants:');
+        console.log(response);
         callSendAPI(sender_psid, response);
     }else if (payload === 'RES_1') {
         response = getMenu('res_1');
@@ -130,21 +131,21 @@ const getMenu = (menu_choice) => {
 const menuTemplate = (jsonContent) => {
     var objArray = [];
     for (var i = 0; i < jsonContent.menu.categories.length; i++){
+        u = i+1;
         var object = {
             "title": jsonContent.menu.categories[i],
-            "image_url": __dirname + '/menus/images/cat' + i + '.jpg',
-            "subtitle": "Subtitle Category " + i,
+            "image_url": __dirname + '/menus/images/cat' + u + '.jpg',
+            "subtitle": "Subtitle Category " + u,
             "buttons":[
                 {
                     "type": "postback",
-                    "title": "Cat " + i,
-                    "payload": "CAT_" + i
+                    "title": "Cat " + u,
+                    "payload": "CAT_" + u
                 }
             ]
         };
         objArray.push(object);
     }
-    console.log(objArray);
     return {
         "attachment":{
             "type": "template",
