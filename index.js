@@ -119,13 +119,15 @@ const handlePostback = (sender_psid, received_postback) => {
 }
 
 const getMenu = (menu_choice) => {
+  return_template = null;
   if(menu_choice === "res_1"){
         var contents = fs.readFileSync(menuPath + '/res_1.json');
         var jsonContent = JSON.parse(contents);
-        return menuTemplate(jsonContent);
+        return_template = menuTemplate(jsonContent);
   }else if(menu_choice === "res_2"){
       console.log('res_2');
   }
+  return return_template;
 }
 
 const menuTemplate = (jsonContent) => {
@@ -144,8 +146,10 @@ const menuTemplate = (jsonContent) => {
                 }
             ]
         };
+        console.log(object.buttons);
         objArray.push(object);
     }
+    console.log(objArray);
     return {
         "attachment":{
             "type": "template",
@@ -163,7 +167,7 @@ const askTemplate = (text) => {
         "attachment":{
             "type":"template",
             "payload":{
-                "template_type":"button",
+                "template_type": "button",
                 "text": text,
                 "buttons":[
                     {
