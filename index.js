@@ -128,62 +128,64 @@ const getMenu = (menu_choice) => {
 }
 
 const menuTemplate = (jsonContent) => {
-    const return_payload = {
-        "payload": {
-            "template_type":"generic",
-            "elements":[
-                {
-                    "title":jsonContent.menu.categories[0],
-                    "image_url": __dirname + '/menus/images/cat1.jpg',
-                    "subtitle":"Subtitle Category 1",
-                    "buttons":[
-                        {
-                            "type":"postback",
-                            "title":"cat 1",
-                            "payload":"CAT_1"
-                        }
-                    ]      
-                },
-                {
-                    "title":jsonContent.menu.categories[1],
-                    "image_url": __dirname + '/menus/images/cat2.jpg',
-                    "subtitle":"Subtitle Category 2",
-                    "buttons":[
-                        {
-                            "type":"postback",
-                            "title":"cat 2",
-                            "payload":"CAT_2"
-                        }
-                    ]      
-                },
-                {
-                    "title":jsonContent.menu.categories[2],
-                    "image_url": __dirname + '/menus/images/cat3.jpg',
-                    "subtitle":"Subtitle Category 3",
-                    "buttons":[
-                        {
-                            "type":"postback",
-                            "title":"cat 3",
-                            "payload":"CAT_3"
-                        }
-                    ]      
-                },
-                {
-                    "title":jsonContent.menu.categories[3],
-                    "image_url": __dirname + '/menus/images/cat4.jpg',
-                    "subtitle":"Subtitle Category 4",
-                    "buttons":[
-                        {
-                            "type":"postback",
-                            "title":"cat 4",
-                            "payload":"CAT_4"
-                        }
-                    ]      
-                }
-            ]
+    return {
+        "attachment":{
+            "type": "template",
+            "payload": {
+                "template_type":"generic",
+                "elements":[
+                    {
+                        "title":jsonContent.menu.categories[0],
+                        "image_url": __dirname + '/menus/images/cat1.jpg',
+                        "subtitle":"Subtitle Category 1",
+                        "buttons":[
+                            {
+                                "type":"postback",
+                                "title":"cat 1",
+                                "payload":"CAT_1"
+                            }
+                        ]      
+                    },
+                    {
+                        "title":jsonContent.menu.categories[1],
+                        "image_url": __dirname + '/menus/images/cat2.jpg',
+                        "subtitle":"Subtitle Category 2",
+                        "buttons":[
+                            {
+                                "type":"postback",
+                                "title":"cat 2",
+                                "payload":"CAT_2"
+                            }
+                        ]      
+                    },
+                    {
+                        "title":jsonContent.menu.categories[2],
+                        "image_url": __dirname + '/menus/images/cat3.jpg',
+                        "subtitle":"Subtitle Category 3",
+                        "buttons":[
+                            {
+                                "type":"postback",
+                                "title":"cat 3",
+                                "payload":"CAT_3"
+                            }
+                        ]      
+                    },
+                    {
+                        "title":jsonContent.menu.categories[3],
+                        "image_url": __dirname + '/menus/images/cat4.jpg',
+                        "subtitle":"Subtitle Category 4",
+                        "buttons":[
+                            {
+                                "type":"postback",
+                                "title":"cat 4",
+                                "payload":"CAT_4"
+                            }
+                        ]      
+                    }
+                ]
+            }
         }
     }
-    return return_payload
 }
 
 
