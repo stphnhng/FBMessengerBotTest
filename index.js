@@ -133,6 +133,7 @@ const getMenu = (menu_choice) => {
 }
 
 const menuTemplate = (jsonContent) => {
+    console.log("returning menuTemplate");
     return {
         "payload": {
             "template_type":"generic",
