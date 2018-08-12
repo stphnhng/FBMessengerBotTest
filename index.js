@@ -124,6 +124,7 @@ const getMenu = (menu_choice) => {
         var contents = fs.readFileSync(menuPath + '/res_1.json');
         var jsonContent = JSON.parse(contents);
         return_template = menuTemplate(jsonContent);
+        console.log(JSON.stringify(return_template));
   }else if(menu_choice === "res_2"){
       console.log('res_2');
   }
