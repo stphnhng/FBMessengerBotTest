@@ -137,7 +137,7 @@ const menuTemplate = (jsonContent) => {
         var u = i+1;
         var object = {
             "title": jsonContent.menu.categories[i],
-            "image_url": __dirname + '/menus/images/cat' + u + '.jpg',
+            //"image_url": __dirname + '/menus/images/cat' + u + '.jpg',
             "subtitle": "Subtitle Category " + u,
             "buttons":[
                 {
@@ -147,10 +147,8 @@ const menuTemplate = (jsonContent) => {
                 }
             ]
         };
-        console.log(object.buttons);
         objArray.push(object);
     }
-    console.log(objArray);
     return {
         "attachment":{
             "type": "template",
