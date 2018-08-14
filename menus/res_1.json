@@ -1,75 +1,43 @@
+// TeaTop Restaurant.
 {"menu":{
     "items":[
         {
-            "name":"English Afternoon Tea",
+            "name":"Jasmine Milk Tea",
             "category":0,
-            "sizes":["small", "regular", "large"]
+            "price": 3.95
         },
         {
-            "name":"Matcha Green Tea",
+            "name":"Earl Grey Milk Tea",
             "category":0,
-            "sizes":["small", "regular", "large"]
+            "price": 3.95
         },
         {
-            "name":"Bubble Milk Tea",
+            "name":"Darjeeling Milk Tea",
             "category":0,
-            "sizes":["small", "regular", "large"]
+            "price": 3.95
         },
         {
-            "name":"Toffifee",
-            "category":1,
-            "sizes":["small", "regular", "large"]
+            "name":"Darjeeling Milk Tea",
+            "category":0,
+            "price": 3.95
         },
         {
-            "name":"Chai Latte",
-            "category":1,
-            "sizes":["small", "regular", "large"]
+            "name":"Signature Alpine Green Milk Tea",
+            "category":0,
+            "price": 3.95
         },
         {
-            "name":"Tea Affogato",
-            "category":1,
-            "sizes":["small", "regular", "large"]
+            "name":"Oolong Milk Tea",
+            "category":0,
+            "price": 3.95
         },
         {
-            "name":"Comfort",
-            "category":2,
-            "sizes":["small", "regular", "large"]
-        },
-        {
-            "name":"Recover",
-            "category":2,
-            "sizes":["small", "regular", "large"]
-        },
-        {
-            "name":"Purify",
-            "category":2,
-            "sizes":["small", "regular", "large"]
-        },
-        {
-            "name":"Virgin Bellini",
-            "category":3,
-            "sizes":["small", "regular", "large"]
-        },
-        {
-            "name":"Over the Rainbow",
-            "category":3,
-            "sizes":["small", "regular", "large"]
-        },
-        {
-            "name":"Lychee Burst",
-            "category":3,
-            "sizes":["small", "regular", "large"]
-        },
-        {
-            "name":"Tea Mojito",
-            "category":3,
-            "sizes":["small", "regular", "large"]
+            "name":"Sun Moon Lake Milk Tea",
+            "category":0,
+            "price": 3.95
         }
     ],
     "categories":[
-        "classics",
-        "cravings",
-        "feel-good blends",
-        "refreshing mocktails"
+        "Milk Tea"
     ]
 }}

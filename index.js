@@ -11,8 +11,12 @@ const
 
 const fs = require("fs");
 const menuPath = __dirname + '/menus';
-var schoolName = "";
-var userStage = "";
+
+// User-specific variables.
+var schoolName = ""; // In order to know what school the user is at.
+var prevUserStage = ""; // Prep to let users go back in stages
+var userStage = ""; // What stage the user is currently at.
+var userRestaurant = ""; // What restaurant the user has chosen.
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 5000, () => console.log('webhook is listening'));
@@ -107,45 +111,53 @@ const handlePostback = (sender_psid, received_postback) => {
     console.log("-------");
     console.log(payload);
     console.log("-------");
+    prevUserStage = userStage;
     userStage = received_postback;
-    var jsonContent = JSON.parse(fs.readFileSync(menuPath + '/list_res.json'));
-    switch(payload){
-        case "GET_STARTED":
-            response = getStartedTemplate('Please order by 11am the day you want delivery. Which school do you go to?');
-            console.log(response);
-            callSendAPI(sender_psid, response);
-            break;
-        case "LHS":
-            schoolName = "Lynbrook";
-            response = getRestaurant(jsonContent);
-            console.log(response);
-            callSendAPI(sender_psid, response);
-            break;
-        case "MVHS":
-            schoolName = "Monta Vista";
-            response = getRestaurant(jsonContent);
-            console.log(response);
-            callSendAPI(sender_psid, response);
-            break;
-        case "res_1":
-            response = getMenu("res_1");
-            console.log(response);
-            callSendAPI(sender_psid, response);
-            break;
-        case "res_2":
-            response = getMenu("res_2");
-            console.log(response);
-            callSendAPI(sender_psid, response);
-            break;
-        case "res_3":
-            response = getMenu("res_3");
-            console.log(response);
-            callSendAPI(sender_psid, response);
-            break;
-        default:
-            console.log("Unexpected error");
-            exit();
+    var list_res_json = JSON.parse(fs.readFileSync(menuPath + '/list_res.json'));
+    if (typeof payload === 'string'){
+        switch(payload){
+            case "GET_STARTED":
+                response = getStartedTemplate('Please order by 11am the day you want delivery. Which school do you go to?');
+                console.log(response);
+                callSendAPI(sender_psid, response);
+                break;
+            case "LHS":
+                schoolName = "Lynbrook";
+                response = getRestaurant(list_res_json);
+                console.log(response);
+                callSendAPI(sender_psid, response);
+                break;
+            case "MVHS":
+                schoolName = "Monta Vista";
+                response = getRestaurant(list_res_json);
+                console.log(response);
+                callSendAPI(sender_psid, response);
+                break;
+            case "res_1":
+                userRestaurant = list_res_json.restaurants[0].name;
+                response = getMenu("res_1");
+                console.log(response);
+                callSendAPI(sender_psid, response);
+                break;
+            case "res_2":
+                userRestaurant = list_res_json.restaurants[1].name;
+                response = getMenu("res_2");
+                console.log(response);
+                callSendAPI(sender_psid, response);
+                break;
+            case "res_3":
+                userRestaurant = list_res_json.restaurants[2].name;
+                response = getMenu("res_3");
+                console.log(response);
+                callSendAPI(sender_psid, response);
+                break;
+            default:
+                console.log("Unexpected error in handling POSTBACK events.");
+        }
+    }else{
+        console.log(payload);
     }
+    
 }
 
 const getRestaurant = (jsonContent) => {
@@ -196,12 +208,11 @@ const menuTemplate = (jsonContent) => {
         var object = {
             "title": jsonContent.menu.categories[i],
             //"image_url": __dirname + '/menus/images/cat' + u + '.jpg',
-            "subtitle": "Subtitle Category " + u,
             "buttons":[
                 {
                     "type": "postback",
-                    "title": "Cat " + u,
-                    "payload": "CAT_" + u
+                    "title": "Select this category",
+                    "payload": ["CAT", u]
                 }
             ]
         };
