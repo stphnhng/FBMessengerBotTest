@@ -105,36 +105,36 @@ const handlePostback = (sender_psid, received_postback) => {
     console.log("-------");
     console.log(payload);
     console.log("-------");
+    var jsonContent = JSON.parse(menuPath + '/list_res.json');
     if(payload === 'GET_STARTED'){
         response = getStartedTemplate('Please order by 11am the day you want delivery. Which school do you go to?');
         console.log(response);
         callSendAPI(sender_psid, response);
     }else if (payload === 'LHS') {
         schoolName = "Lynbrook";
-        response = getRestaurant();
+        response = getRestaurant(jsonContent);
         console.log(response);
         callSendAPI(sender_psid, response);
     }else if(payload === 'MVHS'){
         schoolName = "Monta Vista";
-        response = getRestaurant();
+        response = getRestaurant(jsonContent);
         console.log(response);
         callSendAPI(sender_psid, response);
     }
 }
 
-const getRestaurant() => {
+const getRestaurant = (jsonContent) => {
     var objArray = [];
-    var jsonContent = JSON.parse(menuPath + '/list_res.json');
     for(var i = 0; i < jsonContent.restaurants.length; i++){
+        var u = i+1;
         var object = {
-            u = i+1;
             "title": jsonContent.restaurants[i].name,
             "subtitle": jsonContent.restaurants[i].description,
             "buttons":[
                 {
                     "type": "postback",
                     "title": "Select Restaurant",
-                    "payload": "res_" + u;
+                    "payload": "res_" + u
                 }
             ]
         };
