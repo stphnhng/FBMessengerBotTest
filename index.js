@@ -129,17 +129,17 @@ const handlePostback = (sender_psid, received_postback) => {
             break;
         case "res_1":
             response = getMenu("res_1");
-            console.log(reponse);
+            console.log(response);
             callSendAPI(sender_psid, response);
             break;
         case "res_2":
             response = getMenu("res_2");
-            console.log(reponse);
+            console.log(response);
             callSendAPI(sender_psid, response);
             break;
         case "res_3":
             response = getMenu("res_3");
-            console.log(reponse);
+            console.log(response);
             callSendAPI(sender_psid, response);
             break;
         default:
