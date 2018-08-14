@@ -1,43 +1,45 @@
-// TeaTop Restaurant.
-{"menu":{
-    "items":[
-        {
-            "name":"Jasmine Milk Tea",
-            "category":0,
-            "price": 3.95
-        },
-        {
-            "name":"Earl Grey Milk Tea",
-            "category":0,
-            "price": 3.95
-        },
-        {
-            "name":"Darjeeling Milk Tea",
-            "category":0,
-            "price": 3.95
-        },
-        {
-            "name":"Darjeeling Milk Tea",
-            "category":0,
-            "price": 3.95
-        },
-        {
-            "name":"Signature Alpine Green Milk Tea",
-            "category":0,
-            "price": 3.95
-        },
-        {
-            "name":"Oolong Milk Tea",
-            "category":0,
-            "price": 3.95
-        },
-        {
-            "name":"Sun Moon Lake Milk Tea",
-            "category":0,
-            "price": 3.95
-        }
-    ],
-    "categories":[
-        "Milk Tea"
-    ]
-}}
+{
+    "_comment": "TeaTop Restaurant",
+    "menu":{
+        "items":[
+            {
+                "name":"Jasmine Milk Tea",
+                "category":0,
+                "price": 3.95
+            },
+            {
+                "name":"Earl Grey Milk Tea",
+                "category":0,
+                "price": 3.95
+            },
+            {
+                "name":"Darjeeling Milk Tea",
+                "category":0,
+                "price": 3.95
+            },
+            {
+                "name":"Darjeeling Milk Tea",
+                "category":0,
+                "price": 3.95
+            },
+            {
+                "name":"Signature Alpine Green Milk Tea",
+                "category":0,
+                "price": 3.95
+            },
+            {
+                "name":"Oolong Milk Tea",
+                "category":0,
+                "price": 3.95
+            },
+            {
+                "name":"Sun Moon Lake Milk Tea",
+                "category":0,
+                "price": 3.95
+            }
+        ],
+        "categories":[
+            "Milk Tea"
+        ]
+    }
+}
