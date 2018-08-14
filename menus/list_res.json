@@ -1,0 +1,17 @@
+{"restaurants":
+[
+    {
+        "name": "TeaTop",
+        "description": "Various boba drinks"
+    },
+    {
+        "name": "Tofu House",
+        "description": "Bulgogi with rice and assorted side dishes"
+    },
+    {
+        "name": "La Cueva",
+        "description": "Various burritos with vegetarian option"
+    }
+]
+
+}

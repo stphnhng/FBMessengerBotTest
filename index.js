@@ -11,6 +11,7 @@ const
 
 const fs = require("fs");
 const menuPath = __dirname + '/menus';
+var schoolName = "";
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 5000, () => console.log('webhook is listening'));
@@ -105,18 +106,50 @@ const handlePostback = (sender_psid, received_postback) => {
     console.log(payload);
     console.log("-------");
     if(payload === 'GET_STARTED'){
-        console.log('get started option chosen');
-        response = askTemplate('This is the food delivery app, please order from the following restaurants:');
+        response = getStartedTemplate('Please order by 11am the day you want delivery. Which school do you go to?');
         console.log(response);
         callSendAPI(sender_psid, response);
-    }else if (payload === 'RES_1') {
-        response = getMenu('res_1');
+    }else if (payload === 'LHS') {
+        schoolName = "Lynbrook";
+        response = getRestaurant();
         console.log(response);
         callSendAPI(sender_psid, response);
-    }else if(payload === 'RES_2'){
-        console.log("res 2 option in postback");
+    }else if(payload === 'MVHS'){
+        schoolName = "Monta Vista";
+        response = getRestaurant();
+        console.log(response);
+        callSendAPI(sender_psid, response);
     }
 }
+
+const getRestaurant() => {
+    var objArray = [];
+    var jsonContent = JSON.parse(menuPath + '/list_res.json');
+    for(var i = 0; i < jsonContent.restaurants.length; i++){
+        var object = {
+            u = i+1;
+            "title": jsonContent.restaurants[i].name,
+            "subtitle": jsonContent.restaurants[i].description,
+            "buttons":[
+                {
+                    "type": "postback",
+                    "title": "Select Restaurant",
+                    "payload": "res_" + u;
+                }
+            ]
+        };
+        objArray.push(object);
+    }
+    return{
+        "attachment":{
+            "type": "template",
+            "payload": {
+                "template_type":"generic",
+                "elements": objArray
+            }
+        }
+    }
+};
 
 const getMenu = (menu_choice) => {
   var return_template = null;
@@ -129,7 +162,7 @@ const getMenu = (menu_choice) => {
       console.log('res_2');
   }
   return return_template;
-}
+};
 
 const menuTemplate = (jsonContent) => {
     var objArray = [];
@@ -158,10 +191,10 @@ const menuTemplate = (jsonContent) => {
             }
         }
     }
-}
+};
 
 
-const askTemplate = (text) => {
+const getStartedTemplate = (text) => {
     return {
         "attachment":{
             "type":"template",
@@ -171,19 +204,19 @@ const askTemplate = (text) => {
                 "buttons":[
                     {
                         "type":"postback",
-                        "title":"Restaurant 1",
-                        "payload":"RES_1"
+                        "title":"Lynbrook",
+                        "payload":"LHS"
                     },
                     {
                         "type":"postback",
-                        "title":"Restaurant 2",
-                        "payload":"RES_2"
+                        "title":"Monta Vista",
+                        "payload":"MVHS"
                     }
                 ]
             }
         }
     }
-}
+};
 
 // Sends response messages via the Send API
 const callSendAPI = (sender_psid, response, cb = null) => {
@@ -214,6 +247,6 @@ const callSendAPI = (sender_psid, response, cb = null) => {
             console.error("Unable to send message:" + err);
         }
     });
-}
+};
 
 
