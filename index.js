@@ -105,7 +105,7 @@ const handlePostback = (sender_psid, received_postback) => {
     console.log("-------");
     console.log(payload);
     console.log("-------");
-    var jsonContent = JSON.parse(menuPath + '/list_res.json');
+    var jsonContent = JSON.parse(fs.readFileSync(menuPath + '/list_res.json'));
     if(payload === 'GET_STARTED'){
         response = getStartedTemplate('Please order by 11am the day you want delivery. Which school do you go to?');
         console.log(response);
