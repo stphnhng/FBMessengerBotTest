@@ -12,6 +12,7 @@ const
 const fs = require("fs");
 const menuPath = __dirname + '/menus';
 var schoolName = "";
+var userStage = "";
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 5000, () => console.log('webhook is listening'));
@@ -91,7 +92,8 @@ const handleMessage = (sender_psid, received_message) => {
     let response;
     console.log("Received MESSAGE event")
     if (received_message.text) {
-      
+        // Should reset user back to their postback stage if they send a message.
+        handlePostback(sender_psid, userStage);
     }
 }
  
@@ -105,21 +107,44 @@ const handlePostback = (sender_psid, received_postback) => {
     console.log("-------");
     console.log(payload);
     console.log("-------");
+    userStage = received_postback;
     var jsonContent = JSON.parse(fs.readFileSync(menuPath + '/list_res.json'));
-    if(payload === 'GET_STARTED'){
-        response = getStartedTemplate('Please order by 11am the day you want delivery. Which school do you go to?');
-        console.log(response);
-        callSendAPI(sender_psid, response);
-    }else if (payload === 'LHS') {
-        schoolName = "Lynbrook";
-        response = getRestaurant(jsonContent);
-        console.log(response);
-        callSendAPI(sender_psid, response);
-    }else if(payload === 'MVHS'){
-        schoolName = "Monta Vista";
-        response = getRestaurant(jsonContent);
-        console.log(response);
-        callSendAPI(sender_psid, response);
+    switch(payload){
+        case "GET_STARTED":
+            response = getStartedTemplate('Please order by 11am the day you want delivery. Which school do you go to?');
+            console.log(response);
+            callSendAPI(sender_psid, response);
+            break;
+        case "LHS":
+            schoolName = "Lynbrook";
+            response = getRestaurant(jsonContent);
+            console.log(response);
+            callSendAPI(sender_psid, response);
+            break;
+        case "MVHS":
+            schoolName = "Monta Vista";
+            response = getRestaurant(jsonContent);
+            console.log(response);
+            callSendAPI(sender_psid, response);
+            break;
+        case "res_1":
+            response = getMenu("res_1");
+            console.log(reponse);
+            callSendAPI(sender_psid, response);
+            break;
+        case "res_2":
+            response = getMenu("res_2");
+            console.log(reponse);
+            callSendAPI(sender_psid, response);
+            break;
+        case "res_3":
+            response = getMenu("res_3");
+            console.log(reponse);
+            callSendAPI(sender_psid, response);
+            break;
+        default:
+            console.log("Unexpected error");
+            exit();
     }
 }
 
@@ -133,7 +158,7 @@ const getRestaurant = (jsonContent) => {
             "buttons":[
                 {
                     "type": "postback",
-                    "title": "Select Restaurant",
+                    "title": "Select restaurant",
                     "payload": "res_" + u
                 }
             ]
