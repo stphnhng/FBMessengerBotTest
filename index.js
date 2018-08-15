@@ -147,7 +147,7 @@ const handlePostback = (sender_psid, received_postback) => {
             callSendAPI(sender_psid, response);
             break;
         case "CAT":
-            response = getFood(userRestaurantChoice, parseInt(payloadArray[1]));
+            response = getFood(userRestaurantChoice, parseInt(payloadArray[1]) - 1);
             console.log(response);
             callSendAPI(sender_psid, response);
             break;
@@ -156,6 +156,30 @@ const handlePostback = (sender_psid, received_postback) => {
     }
     
 }
+
+const getStartedTemplate = (text) => {
+    return {
+        "attachment":{
+            "type":"template",
+            "payload":{
+                "template_type": "button",
+                "text": text,
+                "buttons":[
+                    {
+                        "type":"postback",
+                        "title":"Lynbrook",
+                        "payload":"LHS"
+                    },
+                    {
+                        "type":"postback",
+                        "title":"Monta Vista",
+                        "payload":"MVHS"
+                    }
+                ]
+            }
+        }
+    }
+};
 
 const getRestaurant = (jsonContent) => {
     var objArray = [];
@@ -186,12 +210,37 @@ const getRestaurant = (jsonContent) => {
 };
 
 const getMenu = (res_choice) => {
-  var return_template = null;
-  if(res_choice === "res_1"){
-        return_template = getCategory(res_dict[res_choice]);
-        console.log(JSON.stringify(return_template));
-  }
-  return return_template;
+    var return_template = getCategory(res_dict[res_choice]);
+    console.log(JSON.stringify(return_template));
+    return return_template;
+};
+
+const getCategory = (jsonContent) => {
+    var objArray = [];
+    for (var i = 0; i < jsonContent.menu.categories.length; i++){
+        var u = i+1;
+        var object = {
+            "title": jsonContent.menu.categories[i],
+            //"image_url": __dirname + '/menus/images/cat' + u + '.jpg',
+            "buttons":[
+                {
+                    "type": "postback",
+                    "title": "Select this category",
+                    "payload": "CAT," + u
+                }
+            ]
+        };
+        objArray.push(object);
+    }
+    return {
+        "attachment":{
+            "type": "template",
+            "payload": {
+                "template_type":"generic",
+                "elements": objArray
+            }
+        }
+    }
 };
 
 const getFood = (res_choice, cat_choice) => {
@@ -223,59 +272,6 @@ const getFood = (res_choice, cat_choice) => {
         }
     }
 }
-
-const getCategory = (jsonContent) => {
-    var objArray = [];
-    for (var i = 0; i < jsonContent.menu.categories.length; i++){
-        var u = i+1;
-        var object = {
-            "title": jsonContent.menu.categories[i],
-            //"image_url": __dirname + '/menus/images/cat' + u + '.jpg',
-            "buttons":[
-                {
-                    "type": "postback",
-                    "title": "Select this category",
-                    "payload": "CAT," + u
-                }
-            ]
-        };
-        objArray.push(object);
-    }
-    return {
-        "attachment":{
-            "type": "template",
-            "payload": {
-                "template_type":"generic",
-                "elements": objArray
-            }
-        }
-    }
-};
-
-
-const getStartedTemplate = (text) => {
-    return {
-        "attachment":{
-            "type":"template",
-            "payload":{
-                "template_type": "button",
-                "text": text,
-                "buttons":[
-                    {
-                        "type":"postback",
-                        "title":"Lynbrook",
-                        "payload":"LHS"
-                    },
-                    {
-                        "type":"postback",
-                        "title":"Monta Vista",
-                        "payload":"MVHS"
-                    }
-                ]
-            }
-        }
-    }
-};
 
 // Sends response messages via the Send API
 const callSendAPI = (sender_psid, response, cb = null) => {
