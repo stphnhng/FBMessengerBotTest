@@ -1,5 +1,17 @@
 'use strict';
 
+/*
+    TODO
+----------------
+
+Check all cases for typing messages in messenger (possibility of doubling orders)
+Get payment system
+Store info in a postgres DB
+find a way to output info to drivers.
+
+*/
+
+
 // Imports dependencies and set up http server
 const
   express = require('express'), // express package for node js - useful webdev
@@ -24,7 +36,7 @@ var prevUserStage = ""; // Prep to let users go back in stages
 var userStage = ""; // What stage the user is currently at.
 var userRestaurant = ""; // Name of restaurant the user has chosen. (needed to put in DB)
 var userRestaurantChoice = ""; // What restaurant the user has chosen (for tracking user choice purposes - not human readable.)
-var userItemChoices = [];
+var userItemChoices = []; // All items that the user wants to order.
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 5000, () => console.log('webhook is listening'));
