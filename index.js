@@ -24,6 +24,7 @@ var prevUserStage = ""; // Prep to let users go back in stages
 var userStage = ""; // What stage the user is currently at.
 var userRestaurant = ""; // Name of restaurant the user has chosen. (needed to put in DB)
 var userRestaurantChoice = ""; // What restaurant the user has chosen (for tracking user choice purposes - not human readable.)
+var userItemChoices = [];
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 5000, () => console.log('webhook is listening'));
@@ -148,7 +149,7 @@ const handlePostback = (sender_psid, received_postback) => {
             callSendAPI(sender_psid, response);
             break;
         case "CAT":
-            response = getFood(userRestaurantChoice, parseInt(payloadArray[1]) - 1);
+            response = getFood(userRestaurantChoice, parseInt(payloadArray[1]));
             console.log(response);
             callSendAPI(sender_psid, response);
             break;
@@ -232,7 +233,7 @@ const getCategory = (jsonContent) => {
                 {
                     "type": "postback",
                     "title": "Select this category",
-                    "payload": "CAT," + u
+                    "payload": "CAT," + i
                 }
             ]
         };
@@ -282,7 +283,7 @@ const getFood = (res_choice, cat_choice) => {
 const orderedFoodLanding = (cat_choice, item_choice) =>  {
     var text = "You got it! One order for a " + res_dict[userRestaurantChoice].menu.items[item_choice].name + " from " + userRestaurant + 
                 " has been added to your cart.";
-    cat_choice +=1; // some stupid indexing thing - double check when have time.
+    userItemChoices.push(userRestaurantChoice + "_" + cat_choice + "_" + item_choice);
     return {
         "attachment":{
             "type":"template",
