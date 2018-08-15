@@ -280,7 +280,7 @@ const getFood = (res_choice, cat_choice) => {
 }
 
 const orderedFoodLanding = (item_choice) =>  {
-    var text = "You got it! One order for a " + res_dict[userRestaurantChoice] + " from " + userRestaurant + 
+    var text = "You got it! One order for a " + res_dict[userRestaurantChoice].menu.items[item_choice] + " from " + userRestaurant + 
                 " has been added to your cart.";
     return {
         "attachment":{
