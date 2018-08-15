@@ -114,48 +114,35 @@ const handlePostback = (sender_psid, received_postback) => {
     prevUserStage = userStage;
     userStage = received_postback;
     var list_res_json = JSON.parse(fs.readFileSync(menuPath + '/list_res.json'));
-    if (typeof payload === 'string'){
-        switch(payload){
-            case "GET_STARTED":
-                response = getStartedTemplate('Please order by 11am the day you want delivery. Which school do you go to?');
-                console.log(response);
-                callSendAPI(sender_psid, response);
-                break;
-            case "LHS":
-                schoolName = "Lynbrook";
-                response = getRestaurant(list_res_json);
-                console.log(response);
-                callSendAPI(sender_psid, response);
-                break;
-            case "MVHS":
-                schoolName = "Monta Vista";
-                response = getRestaurant(list_res_json);
-                console.log(response);
-                callSendAPI(sender_psid, response);
-                break;
-            case "res_1":
-                userRestaurant = list_res_json.restaurants[0].name;
-                response = getMenu("res_1");
-                console.log(response);
-                callSendAPI(sender_psid, response);
-                break;
-            case "res_2":
-                userRestaurant = list_res_json.restaurants[1].name;
-                response = getMenu("res_2");
-                console.log(response);
-                callSendAPI(sender_psid, response);
-                break;
-            case "res_3":
-                userRestaurant = list_res_json.restaurants[2].name;
-                response = getMenu("res_3");
-                console.log(response);
-                callSendAPI(sender_psid, response);
-                break;
-            default:
-                console.log("Unexpected error in handling POSTBACK events.");
-        }
-    }else{
-        console.log(payload);
+    payloadArray = payload.split(",");
+    switch(payloadArray[0]){
+        case "GET_STARTED":
+            response = getStartedTemplate('Please order by 11am the day you want delivery. Which school do you go to?');
+            console.log(response);
+            callSendAPI(sender_psid, response);
+            break;
+        case "LHS":
+            schoolName = "Lynbrook";
+            response = getRestaurant(list_res_json);
+            console.log(response);
+            callSendAPI(sender_psid, response);
+            break;
+        case "MVHS":
+            schoolName = "Monta Vista";
+            response = getRestaurant(list_res_json);
+            console.log(response);
+            callSendAPI(sender_psid, response);
+            break;
+        case "RES":
+            userRestaurant = list_res_json.restaurants[parseInt(payloadArray[1]) - 1].name;
+            response = getMenu("res_" + parseInt(payloadArray[1]));
+            console.log(response);
+            callSendAPI(sender_psid, response);
+            break;
+        case "CAT":
+            console.log(parseInt(payloadArray[1]));
+        default:
+            console.log("Unexpected error in handling POSTBACK events.");
     }
     
 }
@@ -171,7 +158,7 @@ const getRestaurant = (jsonContent) => {
                 {
                     "type": "postback",
                     "title": "Select restaurant",
-                    "payload": "res_" + u
+                    "payload": "RES," + u
                 }
             ]
         };
@@ -212,7 +199,7 @@ const menuTemplate = (jsonContent) => {
                 {
                     "type": "postback",
                     "title": "Select this category",
-                    "payload": ["CAT", u]
+                    "payload": "CAT," + u
                 }
             ]
         };
