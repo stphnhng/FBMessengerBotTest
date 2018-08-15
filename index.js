@@ -153,7 +153,7 @@ const handlePostback = (sender_psid, received_postback) => {
             callSendAPI(sender_psid, response);
             break;
         case "ITEM":
-            response = orderedFoodLanding(parseInt(payloadArray[1]));
+            response = orderedFoodLanding(parseInt(payloadArray[1]), parseInt(payloadArray[2]));
             console.log(response);
             callSendAPI(sender_psid, response);
             break;
@@ -261,7 +261,7 @@ const getFood = (res_choice, cat_choice) => {
                     {
                         "type": "postback",
                         "title": "Order this",
-                        "payload": "ITEM," + i
+                        "payload": "ITEM," + cat_choice + "," + i
                     }
                 ] 
             }
@@ -279,7 +279,7 @@ const getFood = (res_choice, cat_choice) => {
     }
 }
 
-const orderedFoodLanding = (item_choice) =>  {
+const orderedFoodLanding = (cat_choice, item_choice) =>  {
     var text = "You got it! One order for a " + res_dict[userRestaurantChoice].menu.items[item_choice].name + " from " + userRestaurant + 
                 " has been added to your cart.";
     return {
@@ -291,13 +291,13 @@ const orderedFoodLanding = (item_choice) =>  {
                 "buttons":[
                     {
                         "type":"postback",
-                        "title":"Lynbrook",
-                        "payload":"LHS"
+                        "title":"Add another item",
+                        "payload":"CAT," + cat_choice
                     },
                     {
                         "type":"postback",
-                        "title":"Monta Vista",
-                        "payload":"MVHS"
+                        "title":"Checkout",
+                        "payload":"CHKOUT"
                     }
                 ]
             }
