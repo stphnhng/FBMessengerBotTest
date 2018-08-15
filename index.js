@@ -104,6 +104,7 @@ const handleMessage = (sender_psid, received_message) => {
     console.log("Received MESSAGE event")
     if (received_message.text) {
         // Should reset user back to their postback stage if they send a message.
+        console.log(userStage);
         handlePostback(sender_psid, userStage);
     }
 }
@@ -148,6 +149,11 @@ const handlePostback = (sender_psid, received_postback) => {
             break;
         case "CAT":
             response = getFood(userRestaurantChoice, parseInt(payloadArray[1]) - 1);
+            console.log(response);
+            callSendAPI(sender_psid, response);
+            break;
+        case "ITEM":
+            response = orderedFoodLanding(parseInt(payloadArray[1]));
             console.log(response);
             callSendAPI(sender_psid, response);
             break;
@@ -268,6 +274,32 @@ const getFood = (res_choice, cat_choice) => {
             "payload": {
                 "template_type":"generic",
                 "elements": objArray
+            }
+        }
+    }
+}
+
+const orderedFoodLanding = (item_choice) =>  {
+    var text = "You got it! One order for a " + res_dict[userRestaurantChoice] + " from " + userRestaurant + 
+                " has been added to your cart.";
+    return {
+        "attachment":{
+            "type":"template",
+            "payload":{
+                "template_type": "button",
+                "text": text,
+                "buttons":[
+                    {
+                        "type":"postback",
+                        "title":"Lynbrook",
+                        "payload":"LHS"
+                    },
+                    {
+                        "type":"postback",
+                        "title":"Monta Vista",
+                        "payload":"MVHS"
+                    }
+                ]
             }
         }
     }
