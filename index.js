@@ -114,7 +114,7 @@ const handlePostback = (sender_psid, received_postback) => {
     prevUserStage = userStage;
     userStage = received_postback;
     var list_res_json = JSON.parse(fs.readFileSync(menuPath + '/list_res.json'));
-    payloadArray = payload.split(",");
+    var payloadArray = payload.split(",");
     switch(payloadArray[0]){
         case "GET_STARTED":
             response = getStartedTemplate('Please order by 11am the day you want delivery. Which school do you go to?');
