@@ -11,6 +11,10 @@ const
 
 const fs = require("fs");
 const menuPath = __dirname + '/menus';
+const list_res_json = JSON.parse(fs.readFileSync(menuPath + '/list_res.json'));
+const res_1_json = JSON.parse(fs.readFileSync(menuPath + '/res_1.json'));
+const res_2_json = JSON.parse(fs.readFileSync(menuPath + '/res_2.json'));
+const res_3_json = JSON.parse(fs.readFileSync(menuPath + '/res_3.json'));
 
 // User-specific variables.
 var schoolName = ""; // In order to know what school the user is at.
@@ -113,7 +117,6 @@ const handlePostback = (sender_psid, received_postback) => {
     console.log("-------");
     prevUserStage = userStage;
     userStage = received_postback;
-    var list_res_json = JSON.parse(fs.readFileSync(menuPath + '/list_res.json'));
     var payloadArray = payload.split(",");
     switch(payloadArray[0]){
         case "GET_STARTED":
@@ -141,6 +144,7 @@ const handlePostback = (sender_psid, received_postback) => {
             break;
         case "CAT":
             console.log(parseInt(payloadArray[1]));
+            break;
         default:
             console.log("Unexpected error in handling POSTBACK events.");
     }
@@ -178,9 +182,7 @@ const getRestaurant = (jsonContent) => {
 const getMenu = (menu_choice) => {
   var return_template = null;
   if(menu_choice === "res_1"){
-        var contents = fs.readFileSync(menuPath + '/res_1.json');
-        var jsonContent = JSON.parse(contents);
-        return_template = menuTemplate(jsonContent);
+        return_template = getCategory(res_1_json);
         console.log(JSON.stringify(return_template));
   }else if(menu_choice === "res_2"){
       console.log('res_2');
@@ -188,7 +190,11 @@ const getMenu = (menu_choice) => {
   return return_template;
 };
 
-const menuTemplate = (jsonContent) => {
+const getFood = (jsonContent) => {
+
+}
+
+const getCategory = (jsonContent) => {
     var objArray = [];
     for (var i = 0; i < jsonContent.menu.categories.length; i++){
         var u = i+1;
