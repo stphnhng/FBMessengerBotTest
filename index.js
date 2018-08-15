@@ -282,6 +282,7 @@ const getFood = (res_choice, cat_choice) => {
 const orderedFoodLanding = (cat_choice, item_choice) =>  {
     var text = "You got it! One order for a " + res_dict[userRestaurantChoice].menu.items[item_choice].name + " from " + userRestaurant + 
                 " has been added to your cart.";
+    cat_choice +=1; // some stupid indexing thing - double check when have time.
     return {
         "attachment":{
             "type":"template",
