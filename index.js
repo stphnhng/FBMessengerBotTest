@@ -12,15 +12,18 @@ const
 const fs = require("fs");
 const menuPath = __dirname + '/menus';
 const list_res_json = JSON.parse(fs.readFileSync(menuPath + '/list_res.json'));
-const res_1_json = JSON.parse(fs.readFileSync(menuPath + '/res_1.json'));
-const res_2_json = JSON.parse(fs.readFileSync(menuPath + '/res_2.json'));
-const res_3_json = JSON.parse(fs.readFileSync(menuPath + '/res_3.json'));
+var res_dict = {
+    "res_1": JSON.parse(fs.readFileSync(menuPath + '/res_1.json')),
+    "res_2": JSON.parse(fs.readFileSync(menuPath + '/res_2.json')),
+    "res_3": JSON.parse(fs.readFileSync(menuPath + '/res_3.json'))
+};
 
 // User-specific variables.
-var schoolName = ""; // In order to know what school the user is at.
+var schoolName = ""; // In order to know what school the user is at.  (needed to put in DB)
 var prevUserStage = ""; // Prep to let users go back in stages
 var userStage = ""; // What stage the user is currently at.
-var userRestaurant = ""; // What restaurant the user has chosen.
+var userRestaurant = ""; // Name of restaurant the user has chosen. (needed to put in DB)
+var userRestaurantChoice = ""; // What restaurant the user has chosen (for tracking user choice purposes - not human readable.)
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 5000, () => console.log('webhook is listening'));
@@ -138,12 +141,15 @@ const handlePostback = (sender_psid, received_postback) => {
             break;
         case "RES":
             userRestaurant = list_res_json.restaurants[parseInt(payloadArray[1]) - 1].name;
+            userRestaurantChoice = "res_" + parseInt(payloadArray[1]);
             response = getMenu("res_" + parseInt(payloadArray[1]));
             console.log(response);
             callSendAPI(sender_psid, response);
             break;
         case "CAT":
-            console.log(parseInt(payloadArray[1]));
+            response = getFood(parseInt(payloadArray[1]));
+            console.log(response);
+            callsendAPI(sender_psid, response);
             break;
         default:
             console.log("Unexpected error in handling POSTBACK events.");
@@ -182,16 +188,15 @@ const getRestaurant = (jsonContent) => {
 const getMenu = (menu_choice) => {
   var return_template = null;
   if(menu_choice === "res_1"){
-        return_template = getCategory(res_1_json);
+        return_template = getCategory(res_dict[menu_choice]);
         console.log(JSON.stringify(return_template));
-  }else if(menu_choice === "res_2"){
-      console.log('res_2');
   }
   return return_template;
 };
 
 const getFood = (jsonContent) => {
-
+    var objArray = [];
+    
 }
 
 const getCategory = (jsonContent) => {
