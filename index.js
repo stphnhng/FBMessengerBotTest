@@ -147,9 +147,9 @@ const handlePostback = (sender_psid, received_postback) => {
             callSendAPI(sender_psid, response);
             break;
         case "CAT":
-            response = getFood(parseInt(payloadArray[1]));
+            response = getFood(userRestaurantChoice, parseInt(payloadArray[1]));
             console.log(response);
-            callsendAPI(sender_psid, response);
+            callSendAPI(sender_psid, response);
             break;
         default:
             console.log("Unexpected error in handling POSTBACK events.");
@@ -185,18 +185,43 @@ const getRestaurant = (jsonContent) => {
     }
 };
 
-const getMenu = (menu_choice) => {
+const getMenu = (res_choice) => {
   var return_template = null;
-  if(menu_choice === "res_1"){
-        return_template = getCategory(res_dict[menu_choice]);
+  if(res_choice === "res_1"){
+        return_template = getCategory(res_dict[res_choice]);
         console.log(JSON.stringify(return_template));
   }
   return return_template;
 };
 
-const getFood = (jsonContent) => {
+const getFood = (res_choice, cat_choice) => {
     var objArray = [];
-    
+    var jsonContent = res_dict[res_choice];
+    for(var i = 0; i < jsonContent.menu.items.length; i++){
+        if(jsonContent.menu.items[i].category == parseInt(cat_choice) ){
+            var object = {
+                "title": jsonContent.menu.items[i].name,
+                "subtitle": "Price: $" + jsonContent.menu.items[i].price,
+                "buttons": [
+                    {
+                        "type": "postback",
+                        "title": "Order this",
+                        "payload": "ITEM," + i
+                    }
+                ] 
+            }
+            objArray.push(object);
+        }
+    }
+    return{
+        "attachment":{
+            "type": "template",
+            "payload": {
+                "template_type":"generic",
+                "elements": objArray
+            }
+        }
+    }
 }
 
 const getCategory = (jsonContent) => {
