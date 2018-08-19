@@ -1,13 +1,27 @@
 'use strict';
 
 /*
+FINISHED
+-------------
+General Flow chart (except for payment and finishing message screen)
+Getting user first and last name
+
+
+IN PROGRESS
+--------------
+Setting up POSTGRES data base in heroku and accessing it.
+[on hold] creating response template for receipt (when user is done ordering)
+
     TODO
 ----------------
 
+
+
 Check all cases for typing messages in messenger (possibility of doubling orders)
-Get payment system
+Get payment system - need to join beta?
 Store info in a postgres DB
 find a way to output info to drivers.
+add restaurant data to JSON files
 
 */
 
@@ -337,6 +351,8 @@ const getCheckout = () =>{
             "type":"template",
             "payload":{
                 "template_type": "receipt",
+                "recipient_name": user_first,
+                "order_number": 
                 "buttons":[
                     {
                         "type":"postback",
