@@ -362,15 +362,16 @@ const getUserProfile = (sender_psid, cb=null) => {
     request(options, (err, res, body) => {
         if(!err){
             console.log("GET request for User Profile sent!");
-            if(res.body){
-                res.on("data", function(chunk){
-                    console.log("------");
-                    console.log(chunk);
-                    console.log("First Name: " + chunk.first_name);
-                    console.log("Last Name: " + chunk.last_name);
-                    console.log("------");
-                });
-            }
+            console.log(res);
+            console.log('STATUS: ' + res.statusCode);
+            console.log('HEADERS: ' + JSON.stringify(res.headers));
+            res.on("data", function(chunk){
+                console.log("------");
+                console.log(chunk);
+                console.log("First Name: " + chunk.first_name);
+                console.log("Last Name: " + chunk.last_name);
+                console.log("------");
+            });
             if(cb){
                 cb();
             }
