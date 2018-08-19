@@ -31,6 +31,8 @@ var res_dict = {
 };
 
 // User-specific variables.
+var user_first = ""; // User's first name.
+var user_last = ""; // User's last name.
 var schoolName = ""; // In order to know what school the user is at.  (needed to put in DB)
 var prevUserStage = ""; // Prep to let users go back in stages
 var userStage = ""; // What stage the user is currently at.
@@ -362,11 +364,8 @@ const getUserProfile = (sender_psid, cb=null) => {
     request(options, (err, res, body) => {
         if(!err){
             console.log("GET request for User Profile sent!");
-            console.log(res);
-            console.log('STATUS: ' + res.statusCode);
-            console.log('HEADERS: ' + JSON.stringify(res.headers));
-            res.setEncoding('utf8');
-            console.log(body);
+            user_first = body.first_name
+            user_last = body.last_name;
             if(cb){
                 cb();
             }
