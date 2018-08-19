@@ -362,7 +362,7 @@ const getUserProfile = (sender_psid, cb=null) => {
     request(options, (err, res, body) => {
         if(!err){
             console.log("GET request for User Profile sent!");
-            if(res._hasBody){
+            if(res.body){
                 res.on("data", function(chunk){
                     console.log("------");
                     console.log(chunk);
