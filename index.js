@@ -36,7 +36,7 @@ var prevUserStage = ""; // Prep to let users go back in stages
 var userStage = ""; // What stage the user is currently at.
 var userRestaurant = ""; // Name of restaurant the user has chosen. (needed to put in DB)
 var userRestaurantChoice = ""; // What restaurant the user has chosen (for tracking user choice purposes - not human readable.)
-var userItemChoices = []; // All items that the user wants to order.
+var userItemChoices = {}; // All items that the user wants to order.
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 5000, () => console.log('webhook is listening'));
@@ -139,6 +139,7 @@ const handlePostback = (sender_psid, received_postback) => {
         case "GET_STARTED":
             response = getStartedTemplate('Please order by 11am the day you want delivery. Which school do you go to?');
             console.log(response);
+            getUserProfile(sender_psid);
             callSendAPI(sender_psid, response);
             break;
         case "LHS":
@@ -169,6 +170,9 @@ const handlePostback = (sender_psid, received_postback) => {
             response = orderedFoodLanding(parseInt(payloadArray[1]), parseInt(payloadArray[2]));
             console.log(response);
             callSendAPI(sender_psid, response);
+            break;
+        case "CHKOUT":
+
             break;
         default:
             console.log("Unexpected error in handling POSTBACK events.");
@@ -290,11 +294,17 @@ const getFood = (res_choice, cat_choice) => {
             }
         }
     }
-}
+};
 
 const orderedFoodLanding = (cat_choice, item_choice) =>  {
     var text = "You got it! One order for a " + res_dict[userRestaurantChoice].menu.items[item_choice].name + " from " + userRestaurant + 
                 " has been added to your cart.";
+    var orderedFood = userRestaurantChoice + "_" + cat_choice + "_" + item_choice;
+    if (!(orderedFood in userItemChoices)){
+        userItemChoices[orderedFood] = 1;
+    }else{
+        userItemChoices[orderedFood] = userItemChoices[orderedFood] + 1;
+    }
     userItemChoices.push(userRestaurantChoice + "_" + cat_choice + "_" + item_choice);
     return {
         "attachment":{
@@ -317,6 +327,55 @@ const orderedFoodLanding = (cat_choice, item_choice) =>  {
             }
         }
     }
+};
+
+const getCheckout = () =>{
+    var orderSummary = "Here's your order summary: ";
+    return {
+        "attachment":{
+            "type":"template",
+            "payload":{
+                "template_type": "receipt",
+                "buttons":[
+                    {
+                        "type":"postback",
+                        "title":"Lynbrook",
+                        "payload":"LHS"
+                    },
+                    {
+                        "type":"postback",
+                        "title":"Monta Vista",
+                        "payload":"MVHS"
+                    }
+                ]
+            }
+        }
+    }
+};
+
+const getUserProfile = (sender_psid, cb=null) => {
+    let request_body = {
+        "recipient": {
+            "id": sender_psid
+        }
+    };
+
+    const options = {
+        uri: "https://graph.facebook.com/v3.1",
+        qs: {"access_token": config.get('facebook.page.access_token'), "fields": "first_name,last_name"},
+        method: "GET"
+    };
+
+    request(options, (err, res, body) => {
+        if(!err){
+            console.log("GET request for User Profile sent!");
+            if(cb){
+                cb();
+            }
+        }else{
+            console.error("Unable to send GET request for User Profile" + err);
+        }
+    });
 }
 
 // Sends response messages via the Send API
