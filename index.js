@@ -362,11 +362,14 @@ const getUserProfile = (sender_psid, cb=null) => {
     request(options, (err, res, body) => {
         if(!err){
             console.log("GET request for User Profile sent!");
-            if(res.body){
-                console.log("------");
-                console.log("First Name: " + res.body.first_name);
-                console.log("Last Name: " + res.body.last_name);
-                console.log("------");
+            if(res._hasBody){
+                res.on("data", function(chunk){
+                    console.log("------");
+                    console.log(chunk);
+                    console.log("First Name: " + chunk.first_name);
+                    console.log("Last Name: " + chunk.last_name);
+                    console.log("------");
+                });
             }
             if(cb){
                 cb();
