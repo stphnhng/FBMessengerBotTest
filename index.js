@@ -305,7 +305,6 @@ const orderedFoodLanding = (cat_choice, item_choice) =>  {
     }else{
         userItemChoices[orderedFood] = userItemChoices[orderedFood] + 1;
     }
-    userItemChoices.push(userRestaurantChoice + "_" + cat_choice + "_" + item_choice);
     return {
         "attachment":{
             "type":"template",
@@ -369,6 +368,7 @@ const getUserProfile = (sender_psid, cb=null) => {
     request(options, (err, res, body) => {
         if(!err){
             console.log("GET request for User Profile sent!");
+            console.log(res);
             if(cb){
                 cb();
             }
