@@ -347,6 +347,7 @@ const orderedFoodLanding = (cat_choice, item_choice) =>  {
 
 const getCheckout = () =>{
     var orderSummary = "Here's your order summary: ";
+    /*
     return {
         "attachment":{
             "type":"template",
@@ -354,6 +355,27 @@ const getCheckout = () =>{
                 "template_type": "receipt",
                 "recipient_name": user_first,
                 "order_number":  a // NOTHING HERE FOR NOW - SETTING UP POSTGRES DB
+                "buttons":[
+                    {
+                        "type":"postback",
+                        "title":"Lynbrook",
+                        "payload":"LHS"
+                    },
+                    {
+                        "type":"postback",
+                        "title":"Monta Vista",
+                        "payload":"MVHS"
+                    }
+                ]
+            }
+        }
+    }*/
+    return {
+        "attachment":{
+            "type":"template",
+            "payload":{
+                "template_type": "button",
+                "text": text,
                 "buttons":[
                     {
                         "type":"postback",
