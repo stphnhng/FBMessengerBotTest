@@ -353,15 +353,9 @@ const getCheckout = () =>{
 };
 
 const getUserProfile = (sender_psid, cb=null) => {
-    let request_body = {
-        "recipient": {
-            "id": sender_psid
-        }
-    };
-
     const options = {
-        uri: "https://graph.facebook.com/v3.1",
-        qs: {"access_token": config.get('facebook.page.access_token'), "fields": "first_name,last_name"},
+        uri: "https://graph.facebook.com/v3.1/" + sender_psid,
+        qs: {"fields": "first_name,last_name", "access_token": config.get('facebook.page.access_token')},
         method: "GET"
     };
 
