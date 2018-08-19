@@ -38,6 +38,7 @@ const
 const fs = require("fs");
 const menuPath = __dirname + '/menus';
 const list_res_json = JSON.parse(fs.readFileSync(menuPath + '/list_res.json'));
+const DB_URL = "postgres://wwulseomkoqteu:4d56f791bfb3ceb4f9a7a91d63ce272a17bdb2a67ddeb664ed9b6be562721182@ec2-54-225-76-201.compute-1.amazonaws.com:5432/dbr4b8fu5flobm"
 var res_dict = {
     "res_1": JSON.parse(fs.readFileSync(menuPath + '/res_1.json')),
     "res_2": JSON.parse(fs.readFileSync(menuPath + '/res_2.json')),
@@ -352,7 +353,7 @@ const getCheckout = () =>{
             "payload":{
                 "template_type": "receipt",
                 "recipient_name": user_first,
-                "order_number": 
+                "order_number":  a // NOTHING HERE FOR NOW - SETTING UP POSTGRES DB
                 "buttons":[
                     {
                         "type":"postback",
