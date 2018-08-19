@@ -366,13 +366,7 @@ const getUserProfile = (sender_psid, cb=null) => {
             console.log('STATUS: ' + res.statusCode);
             console.log('HEADERS: ' + JSON.stringify(res.headers));
             res.setEncoding('utf8');
-            res.on("data", function(chunk){
-                console.log("------");
-                console.log(chunk);
-                /*console.log("First Name: " + chunk.first_name);
-                console.log("Last Name: " + chunk.last_name);*/
-                console.log("------");
-            });
+            console.log(body);
             if(cb){
                 cb();
             }
