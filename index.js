@@ -22,6 +22,7 @@ Get payment system - need to join beta?
 Store info in a postgres DB
 find a way to output info to drivers.
 add restaurant data to JSON files
+Maybe: At the end just restart the stage and clear user data (after putting user orders in DB)
 
 */
 
@@ -54,6 +55,29 @@ var userStage = ""; // What stage the user is currently at.
 var userRestaurant = ""; // Name of restaurant the user has chosen. (needed to put in DB)
 var userRestaurantChoice = ""; // What restaurant the user has chosen (for tracking user choice purposes - not human readable.)
 var userItemChoices = {}; // All items that the user wants to order.
+
+
+// Setting up POSTGRES DB
+
+const {Client} = require('pg');
+
+const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: true,
+});
+
+client.connect();
+
+client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+    if (err) throw err;
+    for (let row of res.rows) {
+        console.log(JSON.stringify(row));
+    }
+    client.end();
+});
+
+
+
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 5000, () => console.log('webhook is listening'));
