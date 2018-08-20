@@ -78,7 +78,6 @@ client.query("INSERT INTO test_table (id, name) VALUES (\'" + dateUID + "\', \'t
                 for (let row of res.rows) {
                     console.log(JSON.stringify(row));
                 }
-                client.end();
               });
 client.query('SELECT * FROM test_table;', (err, res) => {
     if (err) throw err;
