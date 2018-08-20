@@ -73,7 +73,7 @@ client.connect();
 var currentDate = new Date();
 var dateUID = "" + (currentDate.getMonth()+1) + currentDate.getDate() + currentDate.getFullYear();
 console.log(dateUID);
-client.query('INSERT INTO test_table (id, name) VALUES (' + dateUID + ', test_user);', (err, res) => {
+client.query("INSERT INTO test_table (id, name) VALUES (\'" + dateUID + "\', \'test_user\');", (err, res) => {
                 if (err) throw err;
                 for (let row of res.rows) {
                     console.log(JSON.stringify(row));
