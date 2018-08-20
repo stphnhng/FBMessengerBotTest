@@ -68,7 +68,19 @@ const client = new Client({
 
 client.connect();
 
-client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+// Getting everything from a test table.
+
+var currentDate = new Date();
+var dateUID = "" + (currentDate.getMonth()+1) + currentDate.getDate() + currentDate.getFullYear();
+console.log(dateUID);
+client.query('INSERT INTO test_table (id, name) VALUES (' + dateUID + ', test_user);', (err, res) => {
+                if (err) throw err;
+                for (let row of res.rows) {
+                    console.log(JSON.stringify(row));
+                }
+                client.end();
+              });
+client.query('SELECT * FROM test_table;', (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
         console.log(JSON.stringify(row));
