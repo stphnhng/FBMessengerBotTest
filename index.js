@@ -420,6 +420,9 @@ const writeToDB = (sender_psid) => {
     var dateUID = "" + (currentDate.getMonth()+1) + currentDate.getDate() + currentDate.getFullYear() + ":" + currentDate.getHours() + currentDate.getMinutes;
     var orderID = dateUID + ":" + sender_psid;
     console.log(orderID);
+    console.log("INSERT INTO orders VALUES(\"sender_psid\", \"" + user_first + " " + user_last + "\", " + itemParams[0] + 
+            ", " + itemParams[1] + ", " + itemParams[2] + ", \"" + orderID + "\", " + userItemChoicesNumber[item] + ")");
+    /*
     userItemChoices.forEach(function(item){
         var itemParams = item.split("_");
         client.query("INSERT INTO orders VALUES(\"sender_psid\", \"" + user_first + " " + user_last + "\", " + itemParams[0] + 
@@ -436,7 +439,7 @@ const writeToDB = (sender_psid) => {
             console.log(JSON.stringify(row));
         }
         client.end();
-    });
+    });*/
 }
 
 const getUserProfile = (sender_psid, cb=null) => {
