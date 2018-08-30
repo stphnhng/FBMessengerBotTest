@@ -47,8 +47,8 @@ var res_dict = {
 };
 
 // User-specific variables.
-const user_first = ""; // User's first name.
-const user_last = ""; // User's last name.
+var user_first = ""; // User's first name.
+var user_last = ""; // User's last name.
 var schoolName = ""; // In order to know what school the user is at.  (needed to put in DB)
 var prevUserStage = ""; // Prep to let users go back in stages
 var userStage = ""; // What stage the user is currently at.
@@ -422,9 +422,9 @@ const writeToDB = (sender_psid) => {
     console.log(orderID);
     userItemChoices.forEach(function(item){
         var itemParams = item.split("_");
-        console.log("INSERT INTO orders VALUES(\"sender_psid\", \"" + user_first + " " + user_last + "\", " + itemParams[1] + 
+        console.log("INSERT INTO orders VALUES(\"sender_psid\", \"" + this.user_first + " " + this.user_last + "\", " + itemParams[1] + 
                 ", " + itemParams[2] + ", " + itemParams[3] + ", \"" + orderID + "\", " + userItemChoicesNumber[item] + ")");
-        client.query("INSERT INTO orders VALUES(\"" + sender_psid + "\", \"" + user_first + " " + user_last + "\", " + itemParams[0] + 
+        client.query("INSERT INTO orders VALUES(\"" + sender_psid + "\", \"" + this.user_first + " " + this.user_last + "\", " + itemParams[0] + 
             ", " + itemParams[1] + ", " + itemParams[2] + ", \"" + orderID + "\", " + userItemChoicesNumber[item] + ")", (err, res) => {
                     if (err) throw err;
                     for (let row of res.rows) {
