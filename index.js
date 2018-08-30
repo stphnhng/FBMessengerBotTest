@@ -422,10 +422,10 @@ const writeToDB = (sender_psid) => {
     console.log(orderID);
     userItemChoices.forEach(function(item){
         var itemParams = item.split("_");
-        console.log("INSERT INTO orders VALUES(\"sender_psid\", \"" + user_first + " " + user_last + "\", " + itemParams[1] + 
-                ", " + itemParams[2] + ", " + itemParams[3] + ", \"" + orderID + "\", " + userItemChoicesNumber[item] + ")");
-        client.query("INSERT INTO orders VALUES(\"" + sender_psid + "\", \"" + user_first + " " + user_last + "\", " + itemParams[0] + 
-            ", " + itemParams[1] + ", " + itemParams[2] + ", \"" + orderID + "\", " + userItemChoicesNumber[item] + ")", (err, res) => {
+        console.log("INSERT INTO orders VALUES(\'" + sender_psid + "\', \'" + user_first + " " + user_last + "\', " + itemParams[1] + 
+                ", " + itemParams[2] + ", " + itemParams[3] + ", \'" + orderID + "\', " + userItemChoicesNumber[item] + ")");
+        client.query("INSERT INTO orders VALUES(\'" + sender_psid + "\', \'" + user_first + " " + user_last + "\', " + itemParams[0] + 
+            ", " + itemParams[1] + ", " + itemParams[2] + ", \'" + orderID + "\', " + userItemChoicesNumber[item] + ")", (err, res) => {
                     if (err) throw err;
                     for (let row of res.rows) {
                         console.log(JSON.stringify(row));
@@ -453,6 +453,7 @@ const getUserProfile = (sender_psid, cb=null) => {
             console.log("GET request for User Profile sent!");
             user_first = body.first_name
             user_last = body.last_name;
+            console.log(user_first + " " + user_last);
             if(cb){
                 cb();
             }
