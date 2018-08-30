@@ -452,8 +452,8 @@ const getUserProfile = (sender_psid, cb=null) => {
         if(!err){
             console.log("GET request for User Profile sent!");
             console.log(body);
-            user_first = body['first_name'];
-            user_last = body['last_name'];
+            user_first = body["first_name"];
+            user_last = body["last_name"];
             console.log(user_first + " " + user_last);
             if(cb){
                 cb();
