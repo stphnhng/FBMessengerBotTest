@@ -211,8 +211,9 @@ const handlePostback = (sender_psid, received_postback) => {
             var currentDate = new Date();
             var dateUID = "" + (currentDate.getMonth()+1) + currentDate.getDate() + currentDate.getFullYear() + ":" + currentDate.getHours() + currentDate.getMinutes();
             var orderID = dateUID + ":" + sender_psid;
-            getCheckout(orderID)
+            response = getCheckout(orderID)
             writeToDB(sender_psid, orderID);
+            callSendAPI(sender_psid, response);
             break;
         default:
             console.log("Unexpected error in handling POSTBACK events.");
