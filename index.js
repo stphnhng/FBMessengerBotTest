@@ -208,7 +208,11 @@ const handlePostback = (sender_psid, received_postback) => {
             callSendAPI(sender_psid, response);
             break;
         case "CHKOUT":
-            writeToDB(sender_psid);
+            var currentDate = new Date();
+            var dateUID = "" + (currentDate.getMonth()+1) + currentDate.getDate() + currentDate.getFullYear() + ":" + currentDate.getHours() + currentDate.getMinutes();
+            var orderID = dateUID + ":" + sender_psid;
+            getCheckout(orderID)
+            writeToDB(sender_psid, orderID);
             break;
         default:
             console.log("Unexpected error in handling POSTBACK events.");
@@ -367,47 +371,25 @@ const orderedFoodLanding = (cat_choice, item_choice) =>  {
     }
 };
 
-const getCheckout = () =>{
+const getCheckout = (order_id) =>{
     var orderSummary = "Here's your order summary: ";
-    /*
     return {
         "attachment":{
             "type":"template",
             "payload":{
                 "template_type": "receipt",
                 "recipient_name": user_first,
-                "order_number":  a // NOTHING HERE FOR NOW - SETTING UP POSTGRES DB
-                "buttons":[
+                "order_number":  order_id,
+                "currency": "USD",
+                "payment_method": "Temp None",
+                "summary":{
+                    "total_cost": 100.00
+                },
+                "elements":[
                     {
-                        "type":"postback",
-                        "title":"Lynbrook",
-                        "payload":"LHS"
-                    },
-                    {
-                        "type":"postback",
-                        "title":"Monta Vista",
-                        "payload":"MVHS"
-                    }
-                ]
-            }
-        }
-    }*/
-    return {
-        "attachment":{
-            "type":"template",
-            "payload":{
-                "template_type": "button",
-                "text": text,
-                "buttons":[
-                    {
-                        "type":"postback",
-                        "title":"Lynbrook",
-                        "payload":"LHS"
-                    },
-                    {
-                        "type":"postback",
-                        "title":"Monta Vista",
-                        "payload":"MVHS"
+                        "title":"TEST item",
+                        "quantity":1,
+                        "price": 10
                     }
                 ]
             }
@@ -415,17 +397,15 @@ const getCheckout = () =>{
     }
 };
 
-const writeToDB = (sender_psid) => {
-    var currentDate = new Date();
-    var dateUID = "" + (currentDate.getMonth()+1) + currentDate.getDate() + currentDate.getFullYear() + ":" + currentDate.getHours() + currentDate.getMinutes();
-    var orderID = dateUID + ":" + sender_psid;
+const writeToDB = (sender_psidm orderID) => {
     console.log(orderID);
     userItemChoices.forEach(function(item){
         var itemParams = item.split("_");
+        var newOrderID = orderID + itemParams[1] + itemParams[2] + itemParams[3];
         console.log("INSERT INTO orders VALUES(\'" + sender_psid + "\', \'" + user_first + " " + user_last + "\', " + itemParams[1] + 
-                ", " + itemParams[2] + ", " + itemParams[3] + ", \'" + orderID + "\', " + userItemChoicesNumber[item] + ")");
+                ", " + itemParams[2] + ", " + itemParams[3] + ", \'" + newOrderID + "\', " + userItemChoicesNumber[item] + ")");
         client.query("INSERT INTO orders VALUES(\'" + sender_psid + "\', \'" + user_first + " " + user_last + "\', " + itemParams[1] + 
-            ", " + itemParams[2] + ", " + itemParams[3] + ", \'" + orderID + "\', " + userItemChoicesNumber[item] + ")", (err, res) => {
+            ", " + itemParams[2] + ", " + itemParams[3] + ", \'" + newOrderID + "\', " + userItemChoicesNumber[item] + ")", (err, res) => {
                     if (err) throw err;
                     for (let row of res.rows) {
                         console.log(JSON.stringify(row));
@@ -452,8 +432,6 @@ const getUserProfile = (sender_psid, cb=null) => {
         if(!err){
             body = JSON.parse(body);
             console.log("GET request for User Profile sent!");
-            console.log(body);
-            console.log(typeof body);
             user_first = body["first_name"];
             user_last = body["last_name"];
             console.log(user_first + " " + user_last);
