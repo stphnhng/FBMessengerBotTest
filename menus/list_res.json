@@ -2,14 +2,17 @@
 [
     {
         "name": "TeaTop",
+        "res_id":1,
         "description": "Various boba drinks"
     },
     {
         "name": "Tofu House",
+        "res_id":2,
         "description": "Bulgogi with rice and assorted side dishes"
     },
     {
         "name": "La Cueva",
+        "res_id":3,
         "description": "Various burritos with vegetarian option"
     }
 ]

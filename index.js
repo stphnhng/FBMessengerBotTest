@@ -54,7 +54,8 @@ var prevUserStage = ""; // Prep to let users go back in stages
 var userStage = ""; // What stage the user is currently at.
 var userRestaurant = ""; // Name of restaurant the user has chosen. (needed to put in DB)
 var userRestaurantChoice = ""; // What restaurant the user has chosen (for tracking user choice purposes - not human readable.)
-var userItemChoices = {}; // All items that the user wants to order.
+var userItemChoiceNumber = {}; // Number of items that the user wants to order.
+var userItemChoices = []; // Items that the user wants to order.
 
 
 // Setting up POSTGRES DB
@@ -69,23 +70,6 @@ const client = new Client({
 client.connect();
 
 // Getting everything from a test table.
-
-var currentDate = new Date();
-var dateUID = "" + (currentDate.getMonth()+1) + currentDate.getDate() + currentDate.getFullYear();
-console.log(dateUID);
-client.query("INSERT INTO test_table (id, name) VALUES (\'" + dateUID + "\', \'test_user\');", (err, res) => {
-                if (err) throw err;
-                for (let row of res.rows) {
-                    console.log(JSON.stringify(row));
-                }
-              });
-client.query('SELECT * FROM test_table;', (err, res) => {
-    if (err) throw err;
-    for (let row of res.rows) {
-        console.log(JSON.stringify(row));
-    }
-    client.end();
-});
 
 
 
@@ -224,7 +208,7 @@ const handlePostback = (sender_psid, received_postback) => {
             callSendAPI(sender_psid, response);
             break;
         case "CHKOUT":
-
+            writeToDB(sender_psid);
             break;
         default:
             console.log("Unexpected error in handling POSTBACK events.");
@@ -352,10 +336,13 @@ const orderedFoodLanding = (cat_choice, item_choice) =>  {
     var text = "You got it! One order for a " + res_dict[userRestaurantChoice].menu.items[item_choice].name + " from " + userRestaurant + 
                 " has been added to your cart.";
     var orderedFood = userRestaurantChoice + "_" + cat_choice + "_" + item_choice;
-    if (!(orderedFood in userItemChoices)){
-        userItemChoices[orderedFood] = 1;
+    if(!(orderedFood in userItemChoices)){
+        userItemChoices.push(orderedFood);
+    }
+    if (!(orderedFood in userItemChoicesNumber)){
+        userItemChoicesNumber[orderedFood] = 1;
     }else{
-        userItemChoices[orderedFood] = userItemChoices[orderedFood] + 1;
+        userItemChoicesNumber[orderedFood] = userItemChoicesNumber[orderedFood] + 1;
     }
     return {
         "attachment":{
@@ -427,6 +414,30 @@ const getCheckout = () =>{
         }
     }
 };
+
+const writeToDB = (sender_psid) => {
+    var currentDate = new Date();
+    var dateUID = "" + (currentDate.getMonth()+1) + currentDate.getDate() + currentDate.getFullYear() + ":" + currentDate.getHours() + currentDate.getMinutes;
+    var orderID = dateUID + ":" + sender_psid;
+    console.log(orderID);
+    userItemChoices.forEach(function(item){
+        var itemParams = item.split("_");
+        client.query("INSERT INTO orders VALUES(\"sender_psid\", \""user_first + " " + user_last +"\", " + itemParams[0] + 
+            ", " + itemParams[1] + ", " + itemParams[2] + ", \"" + orderID + "\", " + userItemChoicesNumber[item] + ")", (err, res) => {
+                    if (err) throw err;
+                    for (let row of res.rows) {
+                        console.log(JSON.stringify(row));
+                    }
+                  });
+    });
+    client.query('SELECT * FROM test_table;', (err, res) => {
+        if (err) throw err;
+        for (let row of res.rows) {
+            console.log(JSON.stringify(row));
+        }
+        client.end();
+    });
+}
 
 const getUserProfile = (sender_psid, cb=null) => {
     const options = {
