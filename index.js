@@ -397,7 +397,7 @@ const getCheckout = (order_id) =>{
     }
 };
 
-const writeToDB = (sender_psidm orderID) => {
+const writeToDB = (sender_psid, orderID) => {
     console.log(orderID);
     userItemChoices.forEach(function(item){
         var itemParams = item.split("_");
