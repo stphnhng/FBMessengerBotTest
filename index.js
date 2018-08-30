@@ -422,7 +422,7 @@ const writeToDB = (sender_psid) => {
     console.log(orderID);
     userItemChoices.forEach(function(item){
         var itemParams = item.split("_");
-        client.query("INSERT INTO orders VALUES(\"sender_psid\", \""user_first + " " + user_last +"\", " + itemParams[0] + 
+        client.query("INSERT INTO orders VALUES(\"sender_psid\", \"" + user_first + " " + user_last + "\", " + itemParams[0] + 
             ", " + itemParams[1] + ", " + itemParams[2] + ", \"" + orderID + "\", " + userItemChoicesNumber[item] + ")", (err, res) => {
                     if (err) throw err;
                     for (let row of res.rows) {
