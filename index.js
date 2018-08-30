@@ -54,7 +54,7 @@ var prevUserStage = ""; // Prep to let users go back in stages
 var userStage = ""; // What stage the user is currently at.
 var userRestaurant = ""; // Name of restaurant the user has chosen. (needed to put in DB)
 var userRestaurantChoice = ""; // What restaurant the user has chosen (for tracking user choice purposes - not human readable.)
-var userItemChoiceNumber = {}; // Number of items that the user wants to order.
+var userItemChoicesNumber = {}; // Number of items that the user wants to order.
 var userItemChoices = []; // Items that the user wants to order.
 
 
