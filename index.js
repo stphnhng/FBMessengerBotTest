@@ -450,6 +450,7 @@ const getUserProfile = (sender_psid, cb=null) => {
 
     request(options, (err, res, body) => {
         if(!err){
+            body = JSON.parse(body);
             console.log("GET request for User Profile sent!");
             console.log(body);
             console.log(typeof body);
